@@ -8,7 +8,7 @@ class Participate extends StatefulWidget {
   _ParticipateState createState() => _ParticipateState();
 }
 
-class _ParticipateState extends State<Participate> with SingleTickerProviderStateMixin {
+class _ParticipateState extends State<Participate> {
 
   @override
   Widget build(BuildContext context) {
