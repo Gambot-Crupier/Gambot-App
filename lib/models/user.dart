@@ -6,6 +6,7 @@ class User {
 
   User({this.id, this.name, this.username, this.email});
 
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
@@ -15,9 +16,11 @@ class User {
     );
   }
 
-  List<User> getListUsers(List<Map<String, dynamic>> json) {
-    print(json);
 
-    return null;
+  static List<User> getListUsers(List<dynamic> usersJson) {
+    List<User> usersList = List<User>();
+    usersJson.forEach((userJson) => usersList.add(User.fromJson(userJson)));
+    
+    return usersList;
   } 
 }

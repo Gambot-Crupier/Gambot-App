@@ -23,23 +23,23 @@ class _PlayersListState extends State<PlayersList> {
                     Text('Exemplo de listagem de usuários com requests async'),
               ),
             ),
-            FutureBuilder<User>(
-                future: fetchUser(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data.name);
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
-
-                  // By default, show a loading spinner.
-                  return CircularProgressIndicator();
-                }),
+            futureBuilder(fetchUsers, usersList),
           ],
         ));
   }
 
-  Widget postList(data) {
-    print(data);
+  Widget usersList(List<User> data) {
+
+    List<Widget> usersList = new List<Widget>();
+
+    data.forEach((user) => {
+      usersList.add(
+        Center(
+          child: Text(user.name),
+        )
+      )
+    });
+
+    return Column(children: usersList);
   }
 }
