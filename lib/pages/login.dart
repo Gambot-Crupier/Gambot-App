@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
                 height: 30.0,
                 minWidth: 50.0,
                 child: RaisedButton(
-                  onPressed: () => {},
+                  onPressed: () => login(context),
                   child: Text(
                     "Entrar",
                     style: TextStyle(color: Colors.white),
@@ -65,5 +65,15 @@ class _LoginState extends State<Login> {
           )
         )
       );
+  }
+
+
+  void login(BuildContext context) {
+    // Realiza Logica para Login
+
+    // Em caso de sucesso:
+    Navigator.push(
+      context, MaterialPageRoute(builder: (context) => Participate())
+    );
   }
 }
