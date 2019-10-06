@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gambot/pages/signup.page.dart';
 import 'package:gambot/components/change_page_button.dart';
 import 'package:gambot/pages/participate.dart';
 
@@ -49,18 +51,64 @@ class _LoginState extends State<Login> {
                 ),
               ),
               Divider(),
-              ButtonTheme(
-                height: 30.0,
-                minWidth: 50.0,
-                child: RaisedButton(
-                  onPressed: () => {},
-                  child: Text(
-                    "Entrar",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  color: Colors.green.withOpacity(0.7),
+              Container(
+              height: 45,
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                color: Colors.green[800],
+                borderRadius: BorderRadius.all(
+                  Radius.circular(100),
                 ),
               ),
+              child: SizedBox.expand(
+                child: FlatButton(
+                  child: Text(
+                    "Jogar",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 45,
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                color: Colors.indigo[900],
+                borderRadius: BorderRadius.all(
+                  Radius.circular(100),
+                ),
+              ),
+              child: SizedBox.expand(
+                child: FlatButton(
+                  child: Text(
+                    "Cadastre-se",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignupPage(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
             ],
           )
         )
