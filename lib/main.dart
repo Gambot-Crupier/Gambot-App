@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gambot/pages/login.dart';
+import 'package:gambot/pages/profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -69,9 +70,37 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: Colors.indigo[900],
+        leading: Padding(
+          padding: EdgeInsets.only(left: 12),
+          child: IconButton(
+            icon: new Image.asset("assets/icons/cards.png"), color: Colors.white,
+            onPressed: () {
+              print('Game');
+            },
+          ),
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children:<Widget>[
+              Text('Gambot App'),
+          ]
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: new Image.asset("assets/icons/leaderboard.png"), color: Colors.white,
+            onPressed: () {
+              print('Leaderboard');
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.person), color: Colors.white,
+            onPressed: () {
+              print('Profile');
+            },
+          ),
+        ],
+        
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
