@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/pages/players_list.dart';
+import 'package:gambot/style.dart';
 
 class Participate extends StatefulWidget {
   @override
@@ -26,12 +27,16 @@ class _ParticipateState extends State<Participate> {
                 width: 230,
                 child: RaisedButton(
                     padding: const EdgeInsets.all(20.0),
-                    color: Color.fromRGBO(52, 121, 68, 0.7),
+                    color: DefaultStyle.green,
                     onPressed: () => participar(context),
                     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
                     child: Text(
                       'PARTICIPAR DA RODADA',
-                      style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: 'McLaren'),
+                      style: TextStyle(
+                        fontSize: 30, 
+                        color: Colors.white, 
+                        fontFamily: DefaultStyle.fontFamily
+                        ),
                       textAlign: TextAlign.center,
                     ),
                   ),
