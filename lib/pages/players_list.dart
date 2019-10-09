@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gambot/components/default_button.dart';
 import 'package:gambot/components/page_header.dart';
 import 'package:gambot/style.dart';
 
@@ -43,28 +44,31 @@ class _PlayersListState extends State<PlayersList> {
                   ),
                 ),
                 
-                // Bottom Button
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.all(30.0),
-                    child: SizedBox(
-                      width: 160,
-                      child: RaisedButton(
-                          padding: const EdgeInsets.all(10.0),
-                          color: DefaultStyle.green,
-                          onPressed: () => {},
-                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
-                          child: Text(
-                            'COMEÇAR',
-                            style: TextStyle(fontSize: 15, color: Colors.white, fontFamily: DefaultStyle.fontFamily),
-                            textAlign: TextAlign.center,
-                          ),
+                Container(
+                  margin: const EdgeInsets.only(top: 30.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Opacity(
+                        opacity: 0.5,
+                        child: DefaultButton(
+                          text: 'Voltar!!', 
+                          fontSize: 10.0, 
+                          backgroundColor: Colors.red[300], 
+                          fontColor: Colors.black,
+                          func: () => Navigator.pop(context),
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: 160,
+                        child: DefaultButton(
+                          text: 'COMEÇAR', 
+                          fontSize: 15.0,
+                          func: ()=>{},
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ]
             ),
@@ -81,8 +85,6 @@ class _PlayersListState extends State<PlayersList> {
         itemCount: userNames.length,
         
         itemBuilder: (context, index) {
-          print('\n\nalou');
-          print(context);
           return ListTile(
             title: Text(
               (index+1).toString() + '       ' + userNames[index], 
