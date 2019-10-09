@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:gambot/components/change_page_button.dart';
 import 'package:gambot/pages/participate.dart';
 
 class Login extends StatefulWidget {
