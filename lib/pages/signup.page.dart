@@ -18,6 +18,7 @@ class _SignupPageState extends State<SignupPage> {
   };
 
   Future<void> submit() async {
+    print('oi');
     try{
       await Provider.of<Auth>(context, listen: false).signUp(_signUpData);
       Navigator.of(context).pop();
@@ -78,14 +79,15 @@ class _SignupPageState extends State<SignupPage> {
                       Icons.add_a_photo,
                       color: Colors.white,
                     ),
-                    onPressed: () {},
                   ),
                 ),
               ),
             ),
             Divider(),
             TextFormField(
-              onSaved: (value){
+              onSaved: (value) {
+                print('oi');
+                print(value);
                 _signUpData['name'] = value;
               },
               keyboardType: TextInputType.text,
@@ -176,7 +178,9 @@ class _SignupPageState extends State<SignupPage> {
                       text: 'Cadastrar', 
                       fontSize: 15.0, 
                       fontColor: Colors.white,
-                      func: () {},
+                      func: () {
+                        submit();
+                      },
                     ),
                   ),
                   Divider(),
