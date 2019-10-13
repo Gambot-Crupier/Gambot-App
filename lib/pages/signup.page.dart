@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gambot/components/default_button.dart';
 import 'package:gambot/pages/login.dart';
@@ -22,7 +24,17 @@ class _SignupPageState extends State<SignupPage> {
     try{
       await Provider.of<Auth>(context, listen: false).signUp(_signUpData);
       Navigator.of(context).pop();
-    } on Exception catch(error) {
+    } on Exception catch (error) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Erro"),
+            content: Text(error.toString())
+          );
+        },
+      );
+    } catch (error) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
