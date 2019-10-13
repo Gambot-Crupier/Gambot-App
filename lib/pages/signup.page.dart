@@ -1,8 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:gambot/components/default_button.dart';
 import 'package:gambot/pages/login.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
+
+  @override
+  _SignupPageState createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  Map<String, String> _signUpData = {
+    'name': '',
+    'email': '',
+    'password': '',
+  };
+
+  Future<void> submit() async {
+    try{
+      await Provider.of<Auth>(context, listen: false).signUp(_signUpData);
+      Navigator.of(context).pop();
+    } on Exception catch(error) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Erro"),
+            content: Text("Erro ao se cadastrar, tente novamente!")
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +85,9 @@ class SignupPage extends StatelessWidget {
             ),
             Divider(),
             TextFormField(
+              onSaved: (value){
+                _signUpData['name'] = value;
+              },
               keyboardType: TextInputType.text,
               style: new TextStyle(color: Colors.white, fontSize: 20),
               decoration: InputDecoration(
@@ -78,6 +112,9 @@ class SignupPage extends StatelessWidget {
             ),
             Divider(),
             TextFormField(
+              onSaved: (value) {
+                _signUpData['email'] = value;
+              },
               keyboardType: TextInputType.emailAddress,
               style: new TextStyle(color: Colors.white, fontSize: 20),
               decoration: InputDecoration(
@@ -102,6 +139,9 @@ class SignupPage extends StatelessWidget {
             ),
             Divider(),
             TextFormField(
+              onSaved: (value) {
+                _signUpData['password'] = value;
+              },
               keyboardType: TextInputType.text,
               style: new TextStyle(color: Colors.white, fontSize: 20),
               obscureText: true,
