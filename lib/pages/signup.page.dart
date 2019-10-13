@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gambot/components/default_button.dart';
 import 'package:gambot/pages/login.dart';
 
 class SignupPage extends StatelessWidget {
@@ -19,7 +20,7 @@ class SignupPage extends StatelessWidget {
             Container(
               width: 200,
               height: 200,
-              alignment: Alignment(0.0, 1.15),
+              alignment: Alignment(0.5, 1.15),
               decoration: new BoxDecoration(
                 image: new DecorationImage(
                   image: AssetImage("assets/images/user.png"),
@@ -29,11 +30,11 @@ class SignupPage extends StatelessWidget {
               child: Container(
                 height: 56,
                 width: 56,
-                alignment: Alignment.center,
+                alignment: Alignment.centerRight,
                 decoration: BoxDecoration(
                   color: Colors.indigo[900],
                   border: Border.all(
-                    width: 4.0,
+                    width: 2.0,
                     color: Colors.white
                   ),
                   borderRadius: BorderRadius.all(
@@ -51,118 +52,109 @@ class SignupPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            Divider(),
             TextFormField(
-              // autofocus: true,
               keyboardType: TextInputType.text,
+              style: new TextStyle(color: Colors.white, fontSize: 20),
               decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 2.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 1.0),
+                ),
+                prefixIcon: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
                 labelText: "Nome",
                 labelStyle: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
+                  fontFamily: 'McLaren',
                 ),
               ),
-              style: TextStyle(
-                fontSize: 20,
-              ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            Divider(),
             TextFormField(
-              //autofocus: true,
               keyboardType: TextInputType.emailAddress,
+              style: new TextStyle(color: Colors.white, fontSize: 20),
               decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 2.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 1.0),
+                ),
+                prefixIcon: Icon(
+                  Icons.mail,
+                  color: Colors.white,
+                ),                
                 labelText: "E-mail",
                 labelStyle: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
+                  fontFamily: 'McLaren',
                 ),
               ),
-              style: TextStyle(
-                fontSize: 20,
-              ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            Divider(),
             TextFormField(
-              // autofocus: true,
               keyboardType: TextInputType.text,
+              style: new TextStyle(color: Colors.white, fontSize: 20),
               obscureText: true,
               decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 2.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 1.0),
+                ),
+                prefixIcon: Icon(
+                  Icons.lock,
+                  color: Colors.white,
+                ),
                 labelText: "Senha",
                 labelStyle: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
+                  fontFamily: 'McLaren',
                 ),
               ),
-              style: TextStyle(fontSize: 20),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            Divider(),
             Container(
-              height: 45,
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                color: Colors.green[800],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(100),
-                ),
-              ),
-              child: SizedBox.expand(
-                child: FlatButton(
-                  child: Text(
-                    "Cadastrar",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                      fontSize: 15,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  SizedBox(
+                    width: 160, 
+                    child: DefaultButton(
+                      text: 'Cadastrar', 
+                      fontSize: 15.0, 
+                      fontColor: Colors.white,
+                      func: () {},
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  onPressed: () {},
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 45,
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                color: Colors.indigo[900],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(100),
-                ),
-              ),
-              child: SizedBox.expand(
-                child: FlatButton(
-                  child: Text(
-                    "Cancelar",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                      fontSize: 15,
+                  Divider(),
+                  Opacity(
+                    opacity: 0.7,
+                    child: DefaultButton(
+                      text: 'Cancelar', 
+                      fontSize: 15.0, 
+                        fontColor: Colors.white,
+                        backgroundColor: Colors.red,
+                        func: () {
+                          Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => Login())
+                          );
+                        },
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Login(),
-                      ),
-                    );
-                  },
-                ),
+                ],
               ),
             ),
           ],

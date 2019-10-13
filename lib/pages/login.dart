@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gambot/components/default_button.dart';
 import 'package:gambot/pages/signup.page.dart';
-import 'package:gambot/components/change_page_button.dart';
 import 'package:gambot/pages/participate.dart';
 
 class Login extends StatefulWidget {
@@ -37,81 +37,88 @@ class _LoginState extends State<Login> {
                 keyboardType: TextInputType.text,
                 style: new TextStyle(color: Colors.white, fontSize: 20),
                 decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white, width: 2.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white, width: 1.0),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
                   labelText: "Usuário",
-                  labelStyle: TextStyle(color: Colors.white)
+                  labelStyle: TextStyle(color: Colors.white, fontFamily: 'McLaren')
                 ),
               ),
               Divider(),
               TextFormField(
                 keyboardType: TextInputType.text,
                 style: new TextStyle(color: Colors.white, fontSize: 20),
+                obscureText: true,
                 decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white, width: 2.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white, width: 1.0),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    color: Colors.white,
+                  ),
                   labelText: "Senha",
-                  labelStyle: TextStyle(color: Colors.white)
+                  labelStyle: TextStyle(color: Colors.white, fontFamily: 'McLaren'))
                 ),
-              ),
               Divider(),
               Container(
-              height: 45,
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                color: Colors.green[800],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(100),
-                ),
-              ),
-              child: SizedBox.expand(
-                child: FlatButton(
-                  child: Text(
-                    "Jogar",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 45,
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                color: Colors.indigo[900],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(100),
-                ),
-              ),
-              child: SizedBox.expand(
-                child: FlatButton(
-                  child: Text(
-                    "Cadastre-se",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignupPage(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 160,  
+                      child: DefaultButton(
+                        text: 'Jogar!', 
+                        fontSize: 15.0, 
+                        fontColor: Colors.white,
+                        func: () => login(context),
                       ),
-                    );
-                  },
+                    ),
+                    Divider(),
+                    Opacity(
+                      opacity: 0.7,
+                      child: DefaultButton(                  
+                        text: 'Cadastre-se', 
+                        fontSize: 15.0, 
+                        backgroundColor: Colors.indigo[900], 
+                        fontColor: Colors.white,
+                        func: () => cadastro(context),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
             ],
-          )
-        )
-      );
+          ),
+        ),
+    );
+  }
+
+  void login(BuildContext context) {
+    // Realiza Logica para Login
+
+    // Em caso de sucesso:
+    Navigator.push(
+      context, MaterialPageRoute(builder: (context) => Participate())
+    );
+  }
+
+  void cadastro(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SignupPage(),
+      ),
+    );            
   }
 }

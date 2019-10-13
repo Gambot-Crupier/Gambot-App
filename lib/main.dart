@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gambot/pages/login.dart';
-import 'package:gambot/pages/profile.dart';
 
 void main() => runApp(MyApp());
 

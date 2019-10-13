@@ -44,13 +44,14 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
-    - assets/images/logo.png
-    - assets/images/background_login.jpg
-    - assets/images/user2.png
-    - assets/images/background.jpg
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+    - assets/images/
+    - assets/fonts/
 
+  fonts:
+    - family: McLaren
+      fonts:
+        - asset: assets/fonts/McLaren-Regular.ttf
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

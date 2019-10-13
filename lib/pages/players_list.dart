@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:gambot/models/user.dart';
-import 'package:gambot/requests/requests.dart';
+import 'package:gambot/components/default_button.dart';
+import 'package:gambot/components/page_header.dart';
+import 'package:gambot/style.dart';
 
 class PlayersList extends StatefulWidget {
   @override
@@ -9,37 +10,94 @@ class PlayersList extends StatefulWidget {
 }
 
 class _PlayersListState extends State<PlayersList> {
+  
   @override
   Widget build(BuildContext context) {
+
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Lista de Usuários'),
-        ),
-        body: Column(
-          children: <Widget>[
-            Container(
-              child: Center(
-                child:
-                    Text('Exemplo de listagem de usuários com requests async'),
-              ),
+        body: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background.jpg"),
+              fit: BoxFit.cover,
             ),
-            futureBuilder(fetchUsers, usersList),
-          ],
-        ));
+          ),
+          child: Center(
+            child: ListView(
+              children: <Widget> [
+                // Header
+                PageHeader(texto: 'PARTICIPANTES',),
+                
+                // Users List
+                Center(
+                  child: Card(
+                    child: Container(
+                        width: 300,
+                        padding: const EdgeInsets.all(20.0),
+                        height: queryData.size.height * 0.5,
+                        child: usersList(),
+                      ),
+                  ),
+                ),
+                
+                Container(
+                  margin: const EdgeInsets.only(top: 30.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Opacity(
+                        opacity: 0.5,
+                        child: DefaultButton(
+                          text: 'Voltar!!', 
+                          fontSize: 10.0, 
+                          backgroundColor: Colors.red[300], 
+                          fontColor: Colors.black,
+                          func: () => Navigator.pop(context),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 160,
+                        child: DefaultButton(
+                          text: 'COMEÇAR', 
+                          fontSize: 15.0,
+                          func: ()=>{},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ]
+            ),
+          )
+        ),
+      );
   }
 
-  Widget usersList(List<User> data) {
+  Widget usersList() {
+    List<String> userNames = ['Bernardo', 'Bruno', 'Ateldy', 'Matheus', 'Gambot', 'Gambeiro', 'Gambiarra']; 
+    const TextStyle style = TextStyle(fontSize: 18, color: Colors.black, fontFamily: DefaultStyle.fontFamily);
 
-    List<Widget> usersList = new List<Widget>();
+    return ListView.separated(
+        itemCount: userNames.length,
+        
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              (index+1).toString() + '       ' + userNames[index], 
+              style: style,
+            ),
+          );
+        },
 
-    data.forEach((user) => {
-      usersList.add(
-        Center(
-          child: Text(user.name),
-        )
-      )
-    });
-
-    return Column(children: usersList);
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+      );
   }
+
+
 }
