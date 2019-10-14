@@ -13,14 +13,19 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
   Map<String, String> _signUpData = {
     'name': '',
+    'username': '',
     'email': '',
     'password': '',
   };
 
   Future<void> submit() async {
-    print('oi');
+
+    _formKey.currentState.save();
+
     try{
       await Provider.of<Auth>(context, listen: false).signUp(_signUpData);
       Navigator.of(context).pop();
@@ -58,124 +63,126 @@ class _SignupPageState extends State<SignupPage> {
             colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
           ),
         ),
-        padding: EdgeInsets.only(top: 10, left: 40, right: 40),
+        padding: EdgeInsets.only(top: 130, left: 40, right: 40),
         child: ListView(
           children: <Widget>[
-            Container(
-              width: 200,
-              height: 200,
-              alignment: Alignment(0.5, 1.15),
-              decoration: new BoxDecoration(
-                image: new DecorationImage(
-                  image: AssetImage("assets/images/user.png"),
-                  fit: BoxFit.fitHeight,
-                )
-              ),
-              child: Container(
-                height: 56,
-                width: 56,
-                alignment: Alignment.centerRight,
-                decoration: BoxDecoration(
-                  color: Colors.indigo[900],
-                  border: Border.all(
-                    width: 2.0,
-                    color: Colors.white
-                  ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(56)
-                  )
-                ),
-                child: SizedBox.expand(
-                  child: FlatButton(
-                    child: Icon(
-                      Icons.add_a_photo,
-                      color: Colors.white,
+            Divider(),
+            Form(
+              key:_formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    TextFormField(
+                      onSaved: (value) {
+                        _signUpData['name'] = value;
+                      },
+                      keyboardType: TextInputType.text,
+                      style: new TextStyle(color: Colors.white, fontSize: 20),
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white, width: 2.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white, width: 1.0),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: Colors.white,
+                        ),
+                        labelText: "Nome",
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 20,
+                          fontFamily: 'McLaren',
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ),
-            Divider(),
-            TextFormField(
-              onSaved: (value) {
-                print('oi');
-                print(value);
-                _signUpData['name'] = value;
-              },
-              keyboardType: TextInputType.text,
-              style: new TextStyle(color: Colors.white, fontSize: 20),
-              decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 2.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.0),
-                ),
-                prefixIcon: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-                labelText: "Nome",
-                labelStyle: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                  fontFamily: 'McLaren',
-                ),
-              ),
-            ),
-            Divider(),
-            TextFormField(
-              onSaved: (value) {
-                _signUpData['email'] = value;
-              },
-              keyboardType: TextInputType.emailAddress,
-              style: new TextStyle(color: Colors.white, fontSize: 20),
-              decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 2.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.0),
-                ),
-                prefixIcon: Icon(
-                  Icons.mail,
-                  color: Colors.white,
-                ),                
-                labelText: "E-mail",
-                labelStyle: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                  fontFamily: 'McLaren',
-                ),
-              ),
-            ),
-            Divider(),
-            TextFormField(
-              onSaved: (value) {
-                _signUpData['password'] = value;
-              },
-              keyboardType: TextInputType.text,
-              style: new TextStyle(color: Colors.white, fontSize: 20),
-              obscureText: true,
-              decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 2.0),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.0),
-                ),
-                prefixIcon: Icon(
-                  Icons.lock,
-                  color: Colors.white,
-                ),
-                labelText: "Senha",
-                labelStyle: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                  fontFamily: 'McLaren',
+                    Divider(),
+                    TextFormField(
+                      onSaved: (value) {
+                        _signUpData['username'] = value;
+                      },
+                      keyboardType: TextInputType.emailAddress,
+                      style: new TextStyle(color: Colors.white, fontSize: 20),
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white, width: 2.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white, width: 1.0),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.mail,
+                          color: Colors.white,
+                        ),                
+                        labelText: "Username",
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 20,
+                          fontFamily: 'McLaren',
+                        ),
+                      ),
+                    ),
+                    Divider(),
+                    TextFormField(
+                      onSaved: (value) {
+                        _signUpData['email'] = value;
+                      },
+                      keyboardType: TextInputType.emailAddress,
+                      style: new TextStyle(color: Colors.white, fontSize: 20),
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white, width: 2.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white, width: 1.0),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.mail,
+                          color: Colors.white,
+                        ),                
+                        labelText: "E-mail",
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 20,
+                          fontFamily: 'McLaren',
+                        ),
+                      ),
+                    ),
+                    Divider(),
+                    TextFormField(
+                      onSaved: (value) {
+                        _signUpData['password'] = value;
+                      },
+                      keyboardType: TextInputType.text,
+                      style: new TextStyle(color: Colors.white, fontSize: 20),
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white, width: 2.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white, width: 1.0),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: Colors.white,
+                        ),
+                        labelText: "Senha",
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 20,
+                          fontFamily: 'McLaren',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
