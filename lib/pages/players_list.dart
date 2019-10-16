@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/components/default_button.dart';
 import 'package:gambot/components/page_header.dart';
+import 'package:gambot/requests/requests.dart';
 import 'package:gambot/style.dart';
 
 class PlayersList extends StatefulWidget {
@@ -78,6 +79,8 @@ class _PlayersListState extends State<PlayersList> {
   }
 
   Widget usersList() {
+    Widget a = futureBuilder( fetchPlayers, ()=>{});
+
     List<String> userNames = ['Bernardo', 'Bruno', 'Ateldy', 'Matheus', 'Gambot', 'Gambeiro', 'Gambiarra']; 
     const TextStyle style = TextStyle(fontSize: 18, color: Colors.black, fontFamily: DefaultStyle.fontFamily);
 
@@ -92,11 +95,12 @@ class _PlayersListState extends State<PlayersList> {
             ),
           );
         },
-
+        
         separatorBuilder: (context, index) {
           return Divider();
         },
       );
+      
   }
 
 
