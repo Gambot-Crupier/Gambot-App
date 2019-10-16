@@ -40,7 +40,7 @@ class _PlayersListState extends State<PlayersList> {
                         width: 300,
                         padding: const EdgeInsets.all(20.0),
                         height: queryData.size.height * 0.5,
-                        child: usersList(),
+                        child: futureBuilder(fetchPlayers, usersList),
                       ),
                   ),
                 ),
@@ -78,8 +78,9 @@ class _PlayersListState extends State<PlayersList> {
       );
   }
 
-  Widget usersList() {
-    Widget a = futureBuilder( fetchPlayers, ()=>{});
+  Widget usersList(data) {
+    print('\nDados: ');
+    print(data);
 
     List<String> userNames = ['Bernardo', 'Bruno', 'Ateldy', 'Matheus', 'Gambot', 'Gambeiro', 'Gambiarra']; 
     const TextStyle style = TextStyle(fontSize: 18, color: Colors.black, fontFamily: DefaultStyle.fontFamily);

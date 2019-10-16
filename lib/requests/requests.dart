@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/models/user.dart';
 import 'package:gambot/models/player.dart';
+import 'package:gambot/requests/URLs.dart';
 import 'package:http/http.dart';
 
 
@@ -19,16 +20,24 @@ Future<List<User>> fetchUsers() async {
 }
 
 
-Future<List<Player>> fetchPlayers() async {
-  final response = await get('http://192.168.0.255/get_players_in_game');
-  
-  if (response.statusCode == 200){
-    print(json.decode(response.body));
-    return null;
-    //Player.getListPlayers(json.decode(response.body));
+// Future<List<Players>> fetchPlayers() async { 
+Future<dynamic> fetchPlayers() async {
+  print('Entrou em fetch Players');
+  try {
+    final response = await get(URLs.ipBernardo + 'get_players_in_game');
+
+    if (response.statusCode == 200){
+      return json.decode(response.body);
+      //return Player.getListPlayers(json.decode(response.body));
+    }
+    else
+      throw Exception('Failed to load User');
+  } on Exception catch(e) {
+    print("\n\nErro:");
+    print(e);
   }
-  else
-    throw Exception('Failed to load User');
+  return null;
+  
 }
 
 Widget futureBuilder(Function future, Function callbackFunction) {
