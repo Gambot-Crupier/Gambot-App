@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
-	
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:shared_preferences/shared_preferences.dart'; 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 class Auth with ChangeNotifier {
+  final firebase = FirebaseMessaging();
 
   Future<void> signUp(Map<String, String> signUpData) async {    
     try{
@@ -28,6 +30,8 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> login(Map<String, String> loginData) async {
+    loginData['deviceId'] = await firebase.getToken();
+
     try{
       final response = await http.post(
         'http://192.168.0.40:5001/sign-in',
