@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/components/default_button.dart';
 import 'package:gambot/components/page_header.dart';
+import 'package:gambot/models/player.dart';
+import 'package:gambot/requests/requests.dart';
 import 'package:gambot/style.dart';
 
 class PlayersList extends StatefulWidget {
@@ -39,7 +41,7 @@ class _PlayersListState extends State<PlayersList> {
                         width: 300,
                         padding: const EdgeInsets.all(20.0),
                         height: queryData.size.height * 0.5,
-                        child: usersList(),
+                        child: builder(fetchPlayersInGame, usersList),
                       ),
                   ),
                 ),
@@ -77,26 +79,27 @@ class _PlayersListState extends State<PlayersList> {
       );
   }
 
-  Widget usersList() {
-    List<String> userNames = ['Bernardo', 'Bruno', 'Ateldy', 'Matheus', 'Gambot', 'Gambeiro', 'Gambiarra']; 
+  Widget usersList(data) {
+    List<Player> players = Player.getListPlayers(data['players']);
     const TextStyle style = TextStyle(fontSize: 18, color: Colors.black, fontFamily: DefaultStyle.fontFamily);
 
     return ListView.separated(
-        itemCount: userNames.length,
+        itemCount: players.length,
         
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(
-              (index+1).toString() + '       ' + userNames[index], 
+              (index+1).toString() + '       ' + players[index].name, 
               style: style,
             ),
           );
         },
-
+        
         separatorBuilder: (context, index) {
           return Divider();
         },
       );
+      
   }
 
 

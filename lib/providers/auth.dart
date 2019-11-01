@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:async';
-import 'dart:io';
 	
 import 'package:flutter/widgets.dart';
+import 'package:gambot/requests/URLs.dart';
 import 'package:http/http.dart' as http;
 
 class Auth with ChangeNotifier {
@@ -10,7 +10,7 @@ class Auth with ChangeNotifier {
   Future<void> signUp(Map<String, String> signUpData) async {    
     try{
       final response = await http.post(
-        'http://192.168.0.40:5001/sign-up',
+        URLs.ipBernardoPlayers + 'sign-up',
         body: json.encode({"user": signUpData}),
         headers: {"Content-Type": "application/json"},
       );
@@ -23,14 +23,13 @@ class Auth with ChangeNotifier {
       throw error;
     }
 
-
     notifyListeners();
   }
 
   Future<void> login(Map<String, String> loginData) async {
     try{
       final response = await http.post(
-        'http://192.168.0.40:5001/sign-in',
+        URLs.ipBernardoPlayers + 'sign-in',
         body: json.encode({"user": loginData}),
         headers: {"Content-Type": "application/json"},
       );

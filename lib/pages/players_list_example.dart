@@ -23,7 +23,7 @@ class _PlayersListState extends State<PlayersList> {
                     Text('Exemplo de listagem de usuários com requests async'),
               ),
             ),
-            futureBuilder(fetchUsers, usersList),
+            builder(fetchUsersExample, usersList),
           ],
         ));
   }
@@ -32,13 +32,13 @@ class _PlayersListState extends State<PlayersList> {
 
     List<Widget> usersList = new List<Widget>();
 
-    data.forEach((user) => {
+    data.forEach((user) => 
       usersList.add(
         Center(
           child: Text(user.name),
         )
       )
-    });
+    );
 
     return Column(children: usersList);
   }
