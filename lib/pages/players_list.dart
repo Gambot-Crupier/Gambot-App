@@ -54,11 +54,11 @@ class _PlayersListState extends State<PlayersList> {
                       Opacity(
                         opacity: 0.5,
                         child: DefaultButton(
-                          text: 'Voltar!!', 
+                          text: 'Voltar', 
                           fontSize: 10.0, 
                           backgroundColor: Colors.red[300], 
                           fontColor: Colors.black,
-                          func: () => Navigator.pop(context),
+                          func: () => voltar(context),
                         ),
                       ),
                       SizedBox(
@@ -98,9 +98,25 @@ class _PlayersListState extends State<PlayersList> {
         separatorBuilder: (context, index) {
           return Divider();
         },
-      );
-      
+      );   
   }
 
+
+  void voltar(BuildContext context) async {
+    try{
+        await dropGame();
+        Navigator.pop(context);
+      } on Exception catch (error) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Erro"),
+              content: Text(error.toString())
+            );
+          },
+        );
+      }
+  }
 
 }

@@ -60,6 +60,22 @@ Future<dynamic> participateGame() async {
 
 
 
+Future<dynamic> dropGame() async {
+
+  String url = URLs.ipBernardoGateway + 'delete_player_in_game?player_id=' + Global.playerId.toString() + '&game_id=' + Global.currentGameId.toString();
+  final response = await delete(url);
+
+  if (response.statusCode == 200) 
+    Global.currentGameId = null;
+
+  else
+    throw Exception('Não foi possível sair da partida');
+
+  return null;
+}
+
+
+
 Widget builder(Function future, Function callbackFunction) {
   return FutureBuilder<dynamic>(
       future: future(),
