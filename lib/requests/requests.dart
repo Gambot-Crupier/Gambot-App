@@ -61,7 +61,6 @@ Future<dynamic> participateGame() async {
 
 
 Future<dynamic> dropGame() async {
-
   String url = URLs.ipBernardoGateway + 'delete_player_in_game?player_id=' + Global.playerId.toString() + '&game_id=' + Global.currentGameId.toString();
   final response = await delete(url);
 
@@ -69,9 +68,22 @@ Future<dynamic> dropGame() async {
     Global.currentGameId = null;
 
   else
-    throw Exception('Não foi possível sair da partida');
+    throw Exception('Não foi possível sair do jogo.');
 
   return null;
+}
+
+
+
+Future<dynamic> startGame() async {
+  String url = URLs.ipBernardoGateway + 'start_game';
+  final response = await post(url);
+
+  if (response.statusCode == 200)
+    return null;
+
+  else
+    throw Exception('Não foi possível iniciar o jogo (veja se já não foi iniciado!!).');
 }
 
 

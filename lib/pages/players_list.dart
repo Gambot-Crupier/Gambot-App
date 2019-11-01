@@ -66,7 +66,7 @@ class _PlayersListState extends State<PlayersList> {
                         child: DefaultButton(
                           text: 'COMEÇAR', 
                           fontSize: 15.0,
-                          func: ()=>{},
+                          func: () => comecar(context),
                         ),
                       ),
                     ],
@@ -106,6 +106,32 @@ class _PlayersListState extends State<PlayersList> {
     try{
         await dropGame();
         Navigator.pop(context);
+      } on Exception catch (error) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Erro"),
+              content: Text(error.toString())
+            );
+          },
+        );
+      }
+  }
+
+
+  void comecar(BuildContext context) async {
+    try{
+        await startGame();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Começou"),
+              content: Text("O jogo começou mas não tem tela ainda para continuar!")
+            );
+          },
+        );
       } on Exception catch (error) {
         showDialog(
           context: context,
