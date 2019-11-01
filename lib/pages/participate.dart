@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/pages/players_list.dart';
 import 'package:gambot/style.dart';
+import 'package:gambot/requests/requests.dart';
 
 class Participate extends StatefulWidget {
   @override
@@ -31,7 +32,7 @@ class _ParticipateState extends State<Participate> {
                     onPressed: () => participar(context),
                     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
                     child: Text(
-                      'PARTICIPAR DA RODADA',
+                      'PARTICIPAR DO JOGO',
                       style: TextStyle(
                         fontSize: 30, 
                         color: Colors.white, 
@@ -47,12 +48,23 @@ class _ParticipateState extends State<Participate> {
       );
   }
 
-  void participar(BuildContext context) {
-    // Realiza Logica para participar
 
-    // Em caso de sucesso:
-    Navigator.push(
-      context, MaterialPageRoute(builder: (context) => PlayersList())
-    );
+  void participar(BuildContext context) async {
+    try{
+        await participateGame();
+        Navigator.push(
+          context, MaterialPageRoute(builder: (context) => PlayersList())
+        );
+      } on Exception catch (error) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Erro"),
+              content: Text(error.toString())
+            );
+          },
+        );
+      }
   }
 }

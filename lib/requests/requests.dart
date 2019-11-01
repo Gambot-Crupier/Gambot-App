@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gambot/globals.dart';
 import 'package:gambot/models/user.dart';
 import 'package:gambot/requests/URLs.dart';
 import 'package:http/http.dart';
@@ -21,7 +22,6 @@ Future<List<User>> fetchUsersExample() async {
 
 
 Future<dynamic> fetchPlayersInGame() async {
-  print('Entrou em fetch Players');
   try {
     final response = await get(URLs.ipBernardoGateway + 'get_players_in_game');
 
@@ -36,7 +36,26 @@ Future<dynamic> fetchPlayersInGame() async {
     print(e);
   }
   return null;
-  
+}
+
+
+Future<dynamic> participateGame() async {
+    Map<String,String> headers = {
+      'Content-type' : 'application/json', 
+      'Accept': 'application/json',
+    };
+
+    final response = await post(URLs.ipBernardoGateway + 'post_player_in_game', 
+                                headers: headers,
+                                body: json.encode({'player_id': Global.playerId}));
+
+    if (response.statusCode == 200) 
+      Global.currentGameId = json.decode(response.body)['game_id'];
+
+    else
+      throw Exception('Não foi possível juntar-se à partida');
+
+    return null;
 }
 
 

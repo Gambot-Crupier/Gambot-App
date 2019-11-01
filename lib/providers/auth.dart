@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 	
 import 'package:flutter/widgets.dart';
+import 'package:gambot/globals.dart';
 import 'package:gambot/requests/URLs.dart';
 import 'package:http/http.dart' as http;
 
@@ -38,6 +39,9 @@ class Auth with ChangeNotifier {
         var error = json.decode(response.body);
         throw new Exception(error['message']);
       }
+      else 
+        Global.playerId = json.decode(response.body)['user_id'];
+      
     } on Exception catch(error) {
       throw error;
     }
