@@ -15,7 +15,7 @@ class Round extends StatefulWidget {
 }
 
 class _RoundPageState extends State<Round> {
-
+  var money = 1500;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _RoundPageState extends State<Round> {
           image: DecorationImage(
             image: AssetImage("assets/images/background_login.jpg"),
             fit: BoxFit.cover,
-            colorFilter: new ColorFilter.mode(Colors.white.withOpacity(0.5), BlendMode.clear),
+            colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
           ),
         ),
         padding: EdgeInsets.only(top: 130, left: 40, right: 40),
@@ -33,15 +33,37 @@ class _RoundPageState extends State<Round> {
           children: <Widget>[
             Divider(),
             Container(
+              decoration: new BoxDecoration(
+                color: Colors.white,
+                borderRadius: new BorderRadius.circular(16.0)
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Divider(),
+                  DefaultTextStyle(
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(color: Colors.black, fontSize: 20),
+                    child: Text(
+                      'A RODADA ESTÁ EM'
+                    )
+                  ),
+                  Divider(),
+                  DefaultTextStyle(
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
+                    child: Text(
+                      money.toString()
+                    )
+                  ),
+                  Divider(),
                   SizedBox(
-                    width: 160, 
+                    width: 160,
+                    height: 50, 
                     child: DefaultButton(
                       text: 'Aumentar', 
-                      fontSize: 15.0, 
+                      fontSize: 20.0, 
                       fontColor: Colors.white,
                       backgroundColor: Colors.green,
                       func: () {
@@ -50,11 +72,26 @@ class _RoundPageState extends State<Round> {
                     ),
                   ),
                   Divider(),
-                  Opacity(
-                    opacity: 0.7,
+                  SizedBox(
+                    width: 160,
+                    height: 50,
                     child: DefaultButton(
                       text: 'Pagar', 
-                      fontSize: 15.0, 
+                      fontSize: 20.0, 
+                        fontColor: Colors.white,
+                        backgroundColor: Colors.blue,
+                        func: () {
+                          
+                        },
+                    ),
+                  ),
+                  Divider(),
+                  SizedBox(
+                    width: 160,
+                    height: 50,
+                    child: DefaultButton(
+                      text: 'Fugir', 
+                      fontSize: 20.0, 
                         fontColor: Colors.white,
                         backgroundColor: Colors.red,
                         func: () {
@@ -63,18 +100,6 @@ class _RoundPageState extends State<Round> {
                     ),
                   ),
                   Divider(),
-                  Opacity(
-                    opacity: 0.7,
-                    child: DefaultButton(
-                      text: 'Fugir', 
-                      fontSize: 15.0, 
-                        fontColor: Colors.white,
-                        backgroundColor: Colors.red,
-                        func: () {
-                          
-                        },
-                    ),
-                  ),
                 ],
               ),
             ),

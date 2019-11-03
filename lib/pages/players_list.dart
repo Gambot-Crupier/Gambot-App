@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/components/default_button.dart';
 import 'package:gambot/components/page_header.dart';
+import 'package:gambot/pages/round.dart';
 import 'package:gambot/style.dart';
 
 class PlayersList extends StatefulWidget {
@@ -64,7 +65,11 @@ class _PlayersListState extends State<PlayersList> {
                         child: DefaultButton(
                           text: 'COMEÇAR', 
                           fontSize: 15.0,
-                          func: ()=>{},
+                          func: ()=>{
+                            Navigator.pushReplacement(
+                              context, MaterialPageRoute(builder: (context) => Round())
+                            )
+                          },
                         ),
                       ),
                     ],
