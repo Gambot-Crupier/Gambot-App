@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gambot/components/default_button.dart';
 import 'package:gambot/pages/login.dart';

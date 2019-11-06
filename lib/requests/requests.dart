@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gambot/globals.dart';
 import 'package:gambot/models/user.dart';
+import 'package:gambot/requests/URLs.dart';
 import 'package:http/http.dart';
 
 
 
-Future<List<User>> fetchUsers() async {
+Future<List<User>> fetchUsersExample() async {
   final response = await get('https://jsonplaceholder.typicode.com/users');
 
   if (response.statusCode == 200)
@@ -18,7 +20,75 @@ Future<List<User>> fetchUsers() async {
 }
 
 
-Widget futureBuilder(Function future, Function callbackFunction) {
+
+Future<dynamic> fetchPlayersInGame() async {
+  try {
+    final response = await get(URLs.ipBernardoGateway + 'get_players_in_game');
+
+    if (response.statusCode == 200)
+      return json.decode(response.body);
+
+    else 
+      throw Exception('Failed to load User');
+
+  } on Exception catch(e) {
+    print("\n\nErro:");
+    print(e);
+  }
+  return null;
+}
+
+
+Future<dynamic> participateGame() async {
+    Map<String,String> headers = {
+      'Content-type' : 'application/json', 
+      'Accept': 'application/json',
+    };
+
+    final response = await post(URLs.ipBernardoGateway + 'post_player_in_game', 
+                                headers: headers,
+                                body: json.encode({'player_id': Global.playerId}));
+
+    if (response.statusCode == 200) 
+      Global.currentGameId = json.decode(response.body)['game_id'];
+
+    else
+      throw Exception('Não foi possível juntar-se à partida');
+
+    return null;
+}
+
+
+
+Future<dynamic> dropGame() async {
+  String url = URLs.ipBernardoGateway + 'delete_player_in_game?player_id=' + Global.playerId.toString() + '&game_id=' + Global.currentGameId.toString();
+  final response = await delete(url);
+
+  if (response.statusCode == 200) 
+    Global.currentGameId = null;
+
+  else
+    throw Exception('Não foi possível sair do jogo.');
+
+  return null;
+}
+
+
+
+Future<dynamic> startGame() async {
+  String url = URLs.ipBernardoGateway + 'start_game';
+  final response = await post(url);
+
+  if (response.statusCode == 200)
+    return null;
+
+  else
+    throw Exception('Não foi possível iniciar o jogo (veja se já não foi iniciado!!).');
+}
+
+
+
+Widget builder(Function future, Function callbackFunction) {
   return FutureBuilder<dynamic>(
       future: future(),
       builder: (context, snapshot) {
