@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/components/default_button.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gambot/components/page_header.dart';
 import 'package:gambot/pages/round.dart';
 import 'package:gambot/models/player.dart';
@@ -13,7 +14,28 @@ class PlayersList extends StatefulWidget {
 }
 
 class _PlayersListState extends State<PlayersList> {
-  
+  var _firebaseMessaging = new FirebaseMessaging();
+
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.subscribeToTopic('Partida113');
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print(message['data']['message']);
+        setState(() {
+          
+        });
+      },
+      onResume: (Map<String, dynamic> message) async {
+      },
+      onLaunch: (Map<String, dynamic> message) async{
+      },
+    );
+  }
+ 
+
   @override
   Widget build(BuildContext context) {
 

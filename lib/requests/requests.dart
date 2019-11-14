@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/globals.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gambot/models/user.dart';
 import 'package:gambot/requests/URLs.dart';
 import 'package:http/http.dart';
@@ -23,7 +24,7 @@ Future<List<User>> fetchUsersExample() async {
 
 Future<dynamic> fetchPlayersInGame() async {
   try {
-    final response = await get(URLs.ipBernardoGateway + 'get_players_in_game');
+    final response = await get(URLs.ipMatheusGateway + 'get_players_in_game');
 
     if (response.statusCode == 200)
       return json.decode(response.body);
@@ -40,14 +41,17 @@ Future<dynamic> fetchPlayersInGame() async {
 
 
 Future<dynamic> participateGame() async {
+    final firebase = FirebaseMessaging();
+    var device_id = await firebase.getToken();
+
     Map<String,String> headers = {
       'Content-type' : 'application/json', 
       'Accept': 'application/json',
     };
 
-    final response = await post(URLs.ipBernardoGateway + 'post_player_in_game', 
+    final response = await post(URLs.ipMatheusGateway + 'post_player_in_game', 
                                 headers: headers,
-                                body: json.encode({'player_id': Global.playerId}));
+                                body: json.encode({'player_id': Global.playerId, 'device_id': device_id}));
 
     if (response.statusCode == 200) 
       Global.currentGameId = json.decode(response.body)['game_id'];
@@ -61,7 +65,7 @@ Future<dynamic> participateGame() async {
 
 
 Future<dynamic> dropGame() async {
-  String url = URLs.ipBernardoGateway + 'delete_player_in_game?player_id=' + Global.playerId.toString() + '&game_id=' + Global.currentGameId.toString();
+  String url = URLs.ipMatheusGateway + 'delete_player_in_game?player_id=' + Global.playerId.toString() + '&game_id=' + Global.currentGameId.toString();
   final response = await delete(url);
 
   if (response.statusCode == 200) 
@@ -76,7 +80,7 @@ Future<dynamic> dropGame() async {
 
 
 Future<dynamic> startGame() async {
-  String url = URLs.ipBernardoGateway + 'start_game';
+  String url = URLs.ipMatheusGateway + 'start_game';
   final response = await post(url);
 
   if (response.statusCode == 200)
