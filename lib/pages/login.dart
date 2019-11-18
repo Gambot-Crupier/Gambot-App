@@ -162,8 +162,6 @@ class _LoginState extends State<Login> {
   }
 
   void login(BuildContext context) {
-    // Realiza Logica para Login
-
     // Em caso de sucesso:
     Navigator.push(
       context, MaterialPageRoute(builder: (context) => Participate())

@@ -16,6 +16,7 @@
 *.iws
 .idea/
 
+google-services.json
 # Visual Studio Code related
 .vscode/
 

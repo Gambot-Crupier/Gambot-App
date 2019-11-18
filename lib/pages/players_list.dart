@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/components/default_button.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gambot/components/page_header.dart';
+import 'package:gambot/pages/round.dart';
+import 'package:gambot/models/player.dart';
+import 'package:gambot/requests/requests.dart';
 import 'package:gambot/style.dart';
 
 class PlayersList extends StatefulWidget {
@@ -10,7 +14,32 @@ class PlayersList extends StatefulWidget {
 }
 
 class _PlayersListState extends State<PlayersList> {
-  
+  var _firebaseMessaging = new FirebaseMessaging();
+
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.subscribeToTopic('Gambot');
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print(message['data']['message']);
+        if(message['data']['message'] != 'redirect'){
+          setState((){});
+        } else {
+          Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Round())
+          );
+        }
+      },
+      onResume: (Map<String, dynamic> message) async {
+      },
+      onLaunch: (Map<String, dynamic> message) async{
+      },
+    );
+  }
+ 
+
   @override
   Widget build(BuildContext context) {
 
@@ -39,7 +68,7 @@ class _PlayersListState extends State<PlayersList> {
                         width: 300,
                         padding: const EdgeInsets.all(20.0),
                         height: queryData.size.height * 0.5,
-                        child: usersList(),
+                        child: builder(fetchPlayersInGame, usersList),
                       ),
                   ),
                 ),
@@ -52,11 +81,11 @@ class _PlayersListState extends State<PlayersList> {
                       Opacity(
                         opacity: 0.5,
                         child: DefaultButton(
-                          text: 'Voltar!!', 
+                          text: 'Voltar', 
                           fontSize: 10.0, 
                           backgroundColor: Colors.red[300], 
                           fontColor: Colors.black,
-                          func: () => Navigator.pop(context),
+                          func: () => voltar(context),
                         ),
                       ),
                       SizedBox(
@@ -64,7 +93,11 @@ class _PlayersListState extends State<PlayersList> {
                         child: DefaultButton(
                           text: 'COMEÇAR', 
                           fontSize: 15.0,
-                          func: ()=>{},
+                          func: ()=>{
+                            Navigator.pushReplacement(
+                              context, MaterialPageRoute(builder: (context) => Round())
+                            )
+                          },
                         ),
                       ),
                     ],
@@ -77,27 +110,70 @@ class _PlayersListState extends State<PlayersList> {
       );
   }
 
-  Widget usersList() {
-    List<String> userNames = ['Bernardo', 'Bruno', 'Ateldy', 'Matheus', 'Gambot', 'Gambeiro', 'Gambiarra']; 
+  Widget usersList(data) {
+    List<Player> players = Player.getListPlayers(data['players']);
     const TextStyle style = TextStyle(fontSize: 18, color: Colors.black, fontFamily: DefaultStyle.fontFamily);
 
     return ListView.separated(
-        itemCount: userNames.length,
+        itemCount: players.length,
         
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(
-              (index+1).toString() + '       ' + userNames[index], 
+              (index+1).toString() + '       ' + players[index].name, 
               style: style,
             ),
           );
         },
-
+        
         separatorBuilder: (context, index) {
           return Divider();
         },
-      );
+      );   
   }
 
+
+  void voltar(BuildContext context) async {
+    try{
+        await dropGame();
+        Navigator.pop(context);
+      } on Exception catch (error) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Erro"),
+              content: Text(error.toString())
+            );
+          },
+        );
+      }
+  }
+
+
+  void comecar(BuildContext context) async {
+    try{
+        await startGame();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Começou"),
+              content: Text("O jogo começou mas não tem tela ainda para continuar!")
+            );
+          },
+        );
+      } on Exception catch (error) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Erro"),
+              content: Text(error.toString())
+            );
+          },
+        );
+      }
+  }
 
 }
