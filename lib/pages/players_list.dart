@@ -20,13 +20,17 @@ class _PlayersListState extends State<PlayersList> {
   @override
   void initState() {
     super.initState();
-    _firebaseMessaging.subscribeToTopic('Partida113');
+    _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print(message['data']['message']);
-        setState(() {
-          
-        });
+        if(message['data']['message'] != 'redirect'){
+          setState((){});
+        } else {
+          Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Round())
+          );
+        }
       },
       onResume: (Map<String, dynamic> message) async {
       },
