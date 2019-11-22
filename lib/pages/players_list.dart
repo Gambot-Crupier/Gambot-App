@@ -24,9 +24,9 @@ class _PlayersListState extends State<PlayersList> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print(message['data']['message']);
-        if(message['data']['message'] != 'redirect'){
+        if(message['data']['message'] == 'Atualiza'){
           setState((){});
-        } else {
+        } else if(message['data']['message'] == 'Redireciona') {
           Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Round())
           );
