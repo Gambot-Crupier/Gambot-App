@@ -6,6 +6,7 @@ import 'package:gambot/components/page_header.dart';
 import 'package:gambot/pages/round.dart';
 import 'package:gambot/models/player.dart';
 import 'package:gambot/requests/requests.dart';
+import 'package:gambot/requests/requests.dart' as prefix0;
 import 'package:gambot/style.dart';
 
 class PlayersList extends StatefulWidget {
@@ -24,9 +25,9 @@ class _PlayersListState extends State<PlayersList> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print(message['data']['message']);
-        if(message['data']['message'] != 'redirect'){
+        if(message['data']['message'] == 'Atualiza'){
           setState((){});
-        } else {
+        } else if(message['data']['message'] == 'Redireciona') {
           Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Round())
           );
@@ -93,11 +94,7 @@ class _PlayersListState extends State<PlayersList> {
                         child: DefaultButton(
                           text: 'COMEÇAR', 
                           fontSize: 15.0,
-                          func: ()=>{
-                            Navigator.pushReplacement(
-                              context, MaterialPageRoute(builder: (context) => Round())
-                            )
-                          },
+                          func: ()=> comecar(context),
                         ),
                       ),
                     ],
@@ -154,16 +151,21 @@ class _PlayersListState extends State<PlayersList> {
   void comecar(BuildContext context) async {
     try{
         await startGame();
+      } on Exception catch (error) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Começou"),
-              content: Text("O jogo começou mas não tem tela ainda para continuar!")
+              title: Text("Erro"),
+              content: Text(error.toString())
             );
           },
         );
-      } on Exception catch (error) {
+      }
+
+    try{
+      await startRound();
+    }  on Exception catch (error) {
         showDialog(
           context: context,
           builder: (BuildContext context) {

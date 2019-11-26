@@ -90,6 +90,15 @@ Future<dynamic> startGame() async {
     throw Exception('Não foi possível iniciar o jogo (veja se já não foi iniciado!!).');
 }
 
+Future<dynamic> startRound() async {
+  String url = URLs.ipMatheusGateway + 'create_round';
+  final response = await post(url);
+
+  if(response.statusCode == 200)
+    return null;
+  else
+  throw Exception('Não foi possivel inicar um round');
+}
 
 
 Widget builder(Function future, Function callbackFunction) {
