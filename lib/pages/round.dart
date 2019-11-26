@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gambot/components/default_button.dart';
 import 'package:gambot/pages/signup.page.dart';
 import 'package:gambot/pages/participate.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
+import 'package:gambot/globals.dart';
+import 'package:gambot/requests/requests.dart';
+import 'package:gambot/requests/requests.dart' as prefix0;
 
 
 class Round extends StatefulWidget {
@@ -16,6 +20,32 @@ class Round extends StatefulWidget {
 
 class _RoundPageState extends State<Round> {
   var money = 1500;
+  var _firebaseMessaging = new FirebaseMessaging();
+
+  @override
+  void initState() {
+    super.initState();
+
+    getBet();
+
+    _firebaseMessaging.subscribeToTopic('Gambot');
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print(message['data']['message']);
+        if(message['data']['message'] == 'Atualiza'){
+          setState((){});
+        } else if(message['data']['message'] == 'Redireciona') {
+          Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Round())
+          );
+        }
+      },
+      onResume: (Map<String, dynamic> message) async {
+      },
+      onLaunch: (Map<String, dynamic> message) async{
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +84,7 @@ class _RoundPageState extends State<Round> {
                     textAlign: TextAlign.center,
                     style: new TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
                     child: Text(
-                      money.toString()
+                      Global.roundBet.toString()
                     )
                   ),
                   Divider(),

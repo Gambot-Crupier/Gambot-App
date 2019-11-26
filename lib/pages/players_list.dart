@@ -176,6 +176,8 @@ class _PlayersListState extends State<PlayersList> {
           },
         );
       }
+
+    await getRoundId();
   }
 
 }

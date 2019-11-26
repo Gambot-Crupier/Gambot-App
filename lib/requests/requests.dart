@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:gambot/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/globals.dart';
@@ -98,6 +98,26 @@ Future<dynamic> startRound() async {
     return null;
   else
   throw Exception('Não foi possivel inicar um round');
+}
+
+Future<dynamic> getRoundId() async {
+  String url = URLs.ipMatheusGateway + 'get_round_id';
+  final response = await get(url);
+
+  if(response.statusCode == 200) {
+    Global.roundId = json.decode(response.body)['round_id'];
+    return null;
+  }
+}
+
+Future<dynamic> getBet() async {
+  String url = URLs.ipMatheusGateway + 'get_round_bet?round_id=' + Global.roundId.toString();
+  final response = await get(url);
+
+  if(response.statusCode == 200)
+    Global.roundBet = json.decode(response.body)['round_bet'];
+  else
+  throw Exception('Não foi possivel pegar o valor de aposta');
 }
 
 
