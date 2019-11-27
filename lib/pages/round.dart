@@ -111,7 +111,7 @@ class _RoundPageState extends State<Round> {
                         fontColor: Colors.white,
                         backgroundColor: Colors.blue,
                         func: () {
-                          
+                          payBet();
                         },
                     ),
                   ),
@@ -125,7 +125,7 @@ class _RoundPageState extends State<Round> {
                         fontColor: Colors.white,
                         backgroundColor: Colors.red,
                         func: () {
-                          
+                          leaveMatch();
                         },
                     ),
                   ),

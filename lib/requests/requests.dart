@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gambot/models/user.dart';
 import 'package:gambot/requests/URLs.dart';
 import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 
 
@@ -118,6 +119,45 @@ Future<dynamic> getBet() async {
     Global.roundBet = json.decode(response.body)['round_bet'];
   else
   throw Exception('Não foi possivel pegar o valor de aposta');
+}
+
+Future<dynamic> payBet() async {
+  String url = URLs.ipMatheusGateway + 'pay_bet';
+  
+  try{
+    final response = await http.post(
+      url,
+      body: json.encode({"round_id": Global.roundId, "player_id": Global.playerId, "game_id": Global.currentGameId}),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if(response.statusCode != 200) {
+      var error = json.decode(response.body);
+      throw new Exception(error['message']);
+    }
+  } on Exception catch(error) {
+    throw error;
+  }
+
+}
+
+Future<dynamic> leaveMatch() async {
+  String url = URLs.ipMatheusGateway + 'leave_match';
+
+  try {
+    final response = await http.post(
+      url,
+      body: json.encode({"game_id": Global.currentGameId, "player_id": Global.playerId}),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if(response.statusCode != 200) {
+      var error = json.decode(response.body);
+      throw new Exception(error['message']);
+    }
+  } on Exception catch(error) {
+    throw error;
+  }
 }
 
 
