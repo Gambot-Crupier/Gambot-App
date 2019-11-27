@@ -3,4 +3,5 @@ class Global {
   static int currentGameId;
   static int roundId;
   static int roundBet;
+  static int playerTurnId;
 }

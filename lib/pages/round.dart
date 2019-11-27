@@ -19,7 +19,6 @@ class Round extends StatefulWidget {
 }
 
 class _RoundPageState extends State<Round> {
-  var money = 1500;
   var _firebaseMessaging = new FirebaseMessaging();
 
   @override
@@ -31,14 +30,7 @@ class _RoundPageState extends State<Round> {
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print(message['data']['message']);
-        if(message['data']['message'] == 'Atualiza'){
-          setState((){});
-        } else if(message['data']['message'] == 'Redireciona') {
-          Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Round())
-          );
-        }
+        setState((){});
       },
       onResume: (Map<String, dynamic> message) async {
       },
