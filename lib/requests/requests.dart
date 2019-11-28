@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:gambot/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gambot/globals.dart';
@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gambot/models/user.dart';
 import 'package:gambot/requests/URLs.dart';
 import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 
 
@@ -99,6 +100,95 @@ Future<dynamic> startRound() async {
   else
   throw Exception('Não foi possivel inicar um round');
 }
+
+Future<dynamic> getRoundId() async {
+  String url = URLs.ipMatheusGateway + 'get_round_id';
+  final response = await get(url);
+
+  if(response.statusCode == 200) {
+    Global.roundId = json.decode(response.body)['round_id'];
+    return null;
+  }
+}
+
+Future<dynamic> roundRedirect() async {
+  String url = URLs.ipMatheusGateway + 'round_redirect';
+  final response = await post(url);
+
+  if(response.statusCode == 200)
+    return null;
+}
+
+Future<dynamic> getBet() async {
+  String url = URLs.ipMatheusGateway + 'get_round_bet?round_id=' + Global.roundId.toString();
+  final response = await get(url);
+
+  if(response.statusCode == 200){
+    var data = json.decode(response.body);
+    print(data);
+    print(data['bet']);
+    Global.roundBet = data['bet'];
+  }
+  else
+  throw Exception('Não foi possivel pegar o valor de aposta');
+}
+
+Future<dynamic> payBet() async {
+  String url = URLs.ipMatheusGateway + 'pay_bet';
+  
+  try{
+    final response = await http.post(
+      url,
+      body: json.encode({"round_id": Global.roundId, "player_id": Global.playerId, "game_id": Global.currentGameId}),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if(response.statusCode != 200) {
+      var error = json.decode(response.body);
+      throw new Exception(error['message']);
+    }
+  } on Exception catch(error) {
+    throw error;
+  }
+
+}
+
+Future<dynamic> leaveMatch() async {
+  String url = URLs.ipMatheusGateway + 'leave_match';
+
+  try {
+    final response = await http.post(
+      url,
+      body: json.encode({"game_id": Global.currentGameId, "player_id": Global.playerId}),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if(response.statusCode != 200) {
+      var error = json.decode(response.body);
+      throw new Exception(error['message']);
+    }
+  } on Exception catch(error) {
+    throw error;
+  }
+}
+
+Future<dynamic> getCurrentPlayer() async {
+  String url = URLs.ipMatheusGateway + 'get_current_player?round_id=' + Global.roundId.toString();
+
+  try{
+    final response = await http.get(url);
+
+    if(response.statusCode == 200) {
+      var data = json.decode(response.body);
+      Global.playerTurnId = data['current_player_id'];
+    } else {
+      var error = json.decode(response.body);
+      throw new Exception(error['message']);
+    }
+  } on Exception catch(error) {
+    throw error;
+  }
+ }
 
 
 Widget builder(Function future, Function callbackFunction) {
