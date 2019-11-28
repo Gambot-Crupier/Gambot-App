@@ -111,12 +111,24 @@ Future<dynamic> getRoundId() async {
   }
 }
 
+Future<dynamic> roundRedirect() async {
+  String url = URLs.ipMatheusGateway + 'round_redirect';
+  final response = await post(url);
+
+  if(response.statusCode == 200)
+    return null;
+}
+
 Future<dynamic> getBet() async {
   String url = URLs.ipMatheusGateway + 'get_round_bet?round_id=' + Global.roundId.toString();
   final response = await get(url);
 
-  if(response.statusCode == 200)
-    Global.roundBet = json.decode(response.body)['round_bet'];
+  if(response.statusCode == 200){
+    var data = json.decode(response.body);
+    print(data);
+    print(data['bet']);
+    Global.roundBet = data['bet'];
+  }
   else
   throw Exception('Não foi possivel pegar o valor de aposta');
 }
@@ -159,6 +171,24 @@ Future<dynamic> leaveMatch() async {
     throw error;
   }
 }
+
+Future<dynamic> getCurrentPlayer() async {
+  String url = URLs.ipMatheusGateway + 'get_current_player?round_id=' + Global.roundId.toString();
+
+  try{
+    final response = await http.get(url);
+
+    if(response.statusCode == 200) {
+      var data = json.decode(response.body);
+      Global.playerTurnId = data['current_player_id'];
+    } else {
+      var error = json.decode(response.body);
+      throw new Exception(error['message']);
+    }
+  } on Exception catch(error) {
+    throw error;
+  }
+ }
 
 
 Widget builder(Function future, Function callbackFunction) {

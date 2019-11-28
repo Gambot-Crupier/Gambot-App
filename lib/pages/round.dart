@@ -26,6 +26,7 @@ class _RoundPageState extends State<Round> {
     super.initState();
 
     getBet();
+    getCurrentPlayer();
 
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
@@ -41,6 +42,8 @@ class _RoundPageState extends State<Round> {
 
   @override
   Widget build(BuildContext context) {
+    print(Global.playerId);
+    print(Global.playerTurnId);
     if(Global.playerId == Global.playerTurnId){
       return Scaffold(
         body: Container(
