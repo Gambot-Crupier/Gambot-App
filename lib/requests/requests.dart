@@ -159,7 +159,7 @@ Future<dynamic> leaveMatch() async {
   try {
     final response = await http.post(
       url,
-      body: json.encode({"game_id": Global.currentGameId, "player_id": Global.playerId}),
+      body: json.encode({"game_id": Global.currentGameId, "player_id": Global.playerId, "round_id": Global.roundId}),
       headers: {"Content-Type": "application/json"},
     );
 

@@ -24,13 +24,15 @@ class _RoundPageState extends State<Round> {
   @override
   void initState() {
     super.initState();
-
+    
     getBet();
     getCurrentPlayer();
 
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
+        getBet();
+        getCurrentPlayer();
         setState((){});
       },
       onResume: (Map<String, dynamic> message) async {
