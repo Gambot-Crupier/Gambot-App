@@ -59,7 +59,7 @@ class _RecognizePageState extends State<Recognize> {
                       fontColor: Colors.white,
                       backgroundColor: Colors.green,
                       func: () {
-
+                        message(postPlayerId(), context);
                       },
                     ),
                   )),
@@ -72,6 +72,7 @@ class _RecognizePageState extends State<Recognize> {
                         fontColor: Colors.white,
                         backgroundColor: Colors.blue,
                         func: () {
+                          message(skip(), context);
                         },
                     ),
                   )),
@@ -83,7 +84,10 @@ class _RecognizePageState extends State<Recognize> {
                       fontSize: 20.0, 
                         fontColor: Colors.white,
                         backgroundColor: Colors.red,
-                        func: () => goToRound(context),
+                        func: () => {
+                          message(endRecognition(), context),
+                          goToRound(context)
+                        },
                     ),
                   )),
                 ],
@@ -95,12 +99,16 @@ class _RecognizePageState extends State<Recognize> {
     );
   }
 
+
+
   Widget margin(Widget wid) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 12.0),
       child: wid,
     );
   }
+
+
 
   void goToRound(BuildContext context) async {
     try{
@@ -120,4 +128,26 @@ class _RecognizePageState extends State<Recognize> {
     await getRoundId();
     await roundRedirect();
   }
+
+
+
+  void message(Future<dynamic> futureFunc, BuildContext context) async {
+    var message = await futureFunc;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          // title: Text("Reconhecimento"),
+          content: DefaultTextStyle(
+            textAlign: TextAlign.center,
+            style: new TextStyle(color: Colors.black, fontSize: 25),
+            child: Text( message )
+          )
+        );
+      },
+    );                     
+  }
+
+
 }

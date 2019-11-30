@@ -191,6 +191,54 @@ Future<dynamic> getCurrentPlayer() async {
  }
 
 
+
+Future<dynamic> postPlayerId() async {
+  String url = URLs.ipBernardoGateway + 'post_player_id';
+  
+  final response = await post(url,
+    body: json.encode({"player_id": Global.playerId}),
+    headers: {"Content-Type": "application/json"},
+  );
+
+  if(response.statusCode == 200) {
+    return 'Reconhecido com sucesso!';
+  }
+  else {
+    return 'Erro ao tentar reconhecer, tente novamente!';
+  }
+}
+
+
+
+Future<dynamic> skip() async {
+  String url = URLs.ipBernardoGateway + 'post_ignore_player';
+  
+  final response = await post(url);
+
+  if(response.statusCode == 200) {
+    return 'Pulado';
+  }
+  else {
+    return 'Erro ao tentar pular, tente novamente!';
+  }
+}
+
+
+
+Future<dynamic> endRecognition() async {
+  String url = URLs.ipBernardoGateway + 'post_end_recognition';
+  
+  final response = await post(url);
+
+  if(response.statusCode == 200) {
+    return 'Finalizado';
+  }
+  else {
+    return 'Erro ao finalizar o reconhecimento, tente novamente!';
+  }
+}
+
+
 Widget builder(Function future, Function callbackFunction) {
   return FutureBuilder<dynamic>(
       future: future(),

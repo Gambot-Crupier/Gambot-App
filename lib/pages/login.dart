@@ -133,7 +133,7 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       width: 160,  
                       child: DefaultButton(
-                        text: 'Jogar!', 
+                        text: 'Entrar', 
                         fontSize: 15.0, 
                         fontColor: Colors.white,
                         func: () {
