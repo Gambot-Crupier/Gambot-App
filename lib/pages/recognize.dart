@@ -3,8 +3,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gambot/components/default_button.dart';
+import 'package:gambot/components/raiseBetDialog.dart';
 import 'package:gambot/globals.dart';
 import 'package:gambot/requests/requests.dart';
+import 'package:gambot/style.dart';
 
 
 class Recognize extends StatefulWidget {
@@ -90,6 +92,28 @@ class _RecognizePageState extends State<Recognize> {
                         },
                     ),
                   )),
+
+
+
+
+                  // Remover depois!
+                  margin(SizedBox(
+                    width: 160,
+                    height: 50,
+                    child: DefaultButton(
+                      text: 'Aumentar aposta', 
+                      fontSize: 20.0, 
+                        fontColor: Colors.white,
+                        backgroundColor: Colors.red,
+                        func: () => {
+                          raiseBet(context)
+                        },
+                    ),
+                  )),
+
+
+
+
                 ],
               ),
             ),
@@ -147,6 +171,75 @@ class _RecognizePageState extends State<Recognize> {
         );
       },
     );                     
+  }
+
+
+  // Remover depois!!
+  void raiseBet(BuildContext context) async {
+    
+    // Recuperar das APIs
+    double valorApostaAtual = 1200.0;
+    double dinheiroMaximoJogador = 15000.0;
+    int divisoes = (dinheiroMaximoJogador - valorApostaAtual)~/100;
+
+    double _value = valorApostaAtual;
+
+    showDialog(
+		context: context,
+		builder: (BuildContext context) {
+			return AlertDialog(
+				content: StatefulBuilder(
+					builder: (BuildContext context, StateSetter setState) {
+						return Container(
+              height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  margin(Text('Aumente a aposta!')),
+                  margin(Slider(
+                        value: _value,
+                        min: valorApostaAtual,
+                        max: dinheiroMaximoJogador,
+                        divisions: divisoes,
+                        activeColor: Colors.red,
+                        inactiveColor: Colors.black,
+                        label: 'R\$ $_value',
+                        onChanged: (double newValue) {
+                          setState(() {
+                            _value = newValue.round().toDouble();
+                          });
+                        },
+                    )),
+                    margin(SizedBox(
+                    width: 160,
+                    height: 50,
+                    child: DefaultButton(
+                      text: 'Aumentar', 
+                      fontSize: 20.0, 
+                        fontColor: Colors.white,
+                        backgroundColor: DefaultStyle.green,
+                        func: () => {
+                          Navigator.pop(context)
+                        },
+                    ))),
+                    margin(SizedBox(
+                    width: 160,
+                    height: 50,
+                    child: DefaultButton(
+                      text: 'Voltar', 
+                      fontSize: 15.0, 
+                        fontColor: Colors.white,
+                        backgroundColor: Colors.blueAccent,
+                        func: () => {
+                          Navigator.pop(context)
+                        },
+                    ))),
+                ]
+            ));
+					},
+				),
+			);
+		});                 
   }
 
 
