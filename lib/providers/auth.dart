@@ -12,10 +12,11 @@ class Auth with ChangeNotifier {
   final firebase = FirebaseMessaging();
 
   Future<void> signUp(Map<String, String> signUpData) async {
-    signUpData['deviceId'] = await firebase.getToken();   
+    signUpData['deviceId'] = await firebase.getToken();
+
     try{
       final response = await http.post(
-        URLs.ipMatheusPlayers + 'sign-up',
+        URLs.ipBernardoPlayers + 'sign-up',
         body: json.encode({"user": signUpData}),
         headers: {"Content-Type": "application/json"},
       );
@@ -36,7 +37,7 @@ class Auth with ChangeNotifier {
 
     try{
       final response = await http.post(
-        URLs.ipMatheusPlayers + 'sign-in',
+        URLs.ipBernardoPlayers + 'sign-in',
         body: json.encode({"user": loginData}),
         headers: {"Content-Type": "application/json"},
       );
