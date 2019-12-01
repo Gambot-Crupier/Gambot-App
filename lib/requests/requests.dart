@@ -119,14 +119,25 @@ Future<dynamic> roundRedirect() async {
     return null;
 }
 
+Future<dynamic> getPlayerMoney() async {
+  String url = URLs.ipMatheusGateway + 'get_player_money?game_id=' + Global.roundId.toString() +
+    '&player_id=' + Global.playerId.toString();
+  final response = await get(url);
+
+  if(response.statusCode == 200) {
+    var data = json.decode(response.body);
+    Global.playerMoney = data['money'];
+  } else{
+    throw Exception('Não foi possível pegar o dinheiro do jogador');
+  }
+}
+
 Future<dynamic> getBet() async {
   String url = URLs.ipMatheusGateway + 'get_round_bet?round_id=' + Global.roundId.toString();
   final response = await get(url);
 
   if(response.statusCode == 200){
     var data = json.decode(response.body);
-    print(data);
-    print(data['bet']);
     Global.roundBet = data['bet'];
   }
   else

@@ -44,8 +44,6 @@ class _RoundPageState extends State<Round> {
 
   @override
   Widget build(BuildContext context) {
-    print(Global.playerId);
-    print(Global.playerTurnId);
     if(Global.playerId == Global.playerTurnId){
       return Scaffold(
         body: Container(
@@ -81,6 +79,22 @@ class _RoundPageState extends State<Round> {
                     DefaultTextStyle(
                       textAlign: TextAlign.center,
                       style: new TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
+                      child: Text(
+                        Global.roundBet.toString()
+                      )
+                    ),
+                    Divider(),
+                    DefaultTextStyle(
+                      textAlign: TextAlign.left,
+                      style: new TextStyle(color: Colors.black, fontSize: 20),
+                      child: Text(
+                        'Você possui'
+                      )
+                    ),
+                    Divider(),
+                    DefaultTextStyle(
+                      textAlign: TextAlign.right,
+                      style: new TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
                       child: Text(
                         Global.roundBet.toString()
                       )
