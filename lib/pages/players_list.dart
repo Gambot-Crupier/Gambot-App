@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gambot/components/default_button.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gambot/components/page_header.dart';
+import 'package:gambot/pages/recognize.dart';
 import 'package:gambot/pages/round.dart';
 import 'package:gambot/models/player.dart';
 import 'package:gambot/requests/requests.dart';
@@ -94,7 +95,7 @@ class _PlayersListState extends State<PlayersList> {
                         child: DefaultButton(
                           text: 'COMEÇAR', 
                           fontSize: 15.0,
-                          func: ()=> comecar(context),
+                          func: ()=> goToRecognition(context),
                         ),
                       ),
                     ],
@@ -148,7 +149,7 @@ class _PlayersListState extends State<PlayersList> {
   }
 
 
-  void comecar(BuildContext context) async {
+  void goToRecognition(BuildContext context) async {
     try{
         await startGame();
       } on Exception catch (error) {
@@ -163,21 +164,13 @@ class _PlayersListState extends State<PlayersList> {
         );
       }
 
-    try{
-      await startRound();
-    }  on Exception catch (error) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Erro"),
-              content: Text(error.toString())
-            );
-          },
-        );
-      }
 
-    await getRoundId();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Recognize(),
+      ),
+    );   
   }
 
 }

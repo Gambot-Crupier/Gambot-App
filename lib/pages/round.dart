@@ -49,7 +49,7 @@ class _RoundPageState extends State<Round> {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/background_login.jpg"),
+              image: AssetImage("assets/images/background.jpg"),
               fit: BoxFit.cover,
               colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
             ),
@@ -154,7 +154,7 @@ class _RoundPageState extends State<Round> {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/background_login.jpg"),
+              image: AssetImage("assets/images/background.jpg"),
               fit: BoxFit.cover,
               colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
             ),
