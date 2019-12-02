@@ -24,14 +24,30 @@ class _RoundPageState extends State<Round> {
   @override
   void initState() {
     super.initState();
-
+    
     getBet();
     getCurrentPlayer();
+    getPlayerMoney();
 
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
+        getBet();
+        getCurrentPlayer();
         setState((){});
+        getPlayerMoney();
+
+        if(message['data']['message'] == 'Fugiram') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Acabou a rodada!'),
+                content: Text('Como todos os jogadores fugiram, o vencedor é o jogador(a) ' + message['data']['winner'])
+              );
+            },
+          );
+        }
       },
       onResume: (Map<String, dynamic> message) async {
       },
@@ -42,8 +58,6 @@ class _RoundPageState extends State<Round> {
 
   @override
   Widget build(BuildContext context) {
-    print(Global.playerId);
-    print(Global.playerTurnId);
     if(Global.playerId == Global.playerTurnId){
       return Scaffold(
         body: Container(
@@ -81,6 +95,22 @@ class _RoundPageState extends State<Round> {
                       style: new TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
                       child: Text(
                         Global.roundBet.toString()
+                      )
+                    ),
+                    Divider(),
+                    DefaultTextStyle(
+                      textAlign: TextAlign.left,
+                      style: new TextStyle(color: Colors.black, fontSize: 20),
+                      child: Text(
+                        'Você possui'
+                      )
+                    ),
+                    Divider(),
+                    DefaultTextStyle(
+                      textAlign: TextAlign.right,
+                      style: new TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                      child: Text(
+                        Global.playerMoney.toString()
                       )
                     ),
                     Divider(),
