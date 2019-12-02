@@ -27,6 +27,7 @@ class _RoundPageState extends State<Round> {
     
     getBet();
     getCurrentPlayer();
+    getPlayerMoney();
 
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
@@ -34,6 +35,19 @@ class _RoundPageState extends State<Round> {
         getBet();
         getCurrentPlayer();
         setState((){});
+        getPlayerMoney();
+
+        if(message['data']['message'] == 'Fugiram') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Acabou a rodada!'),
+                content: Text('Como todos os jogadores fugiram, o vencedor é o jogador(a) ' + message['data']['winner'])
+              );
+            },
+          );
+        }
       },
       onResume: (Map<String, dynamic> message) async {
       },
@@ -96,7 +110,7 @@ class _RoundPageState extends State<Round> {
                       textAlign: TextAlign.right,
                       style: new TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
                       child: Text(
-                        Global.roundBet.toString()
+                        Global.playerMoney.toString()
                       )
                     ),
                     Divider(),

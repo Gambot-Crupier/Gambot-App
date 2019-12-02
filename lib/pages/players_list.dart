@@ -25,12 +25,11 @@ class _PlayersListState extends State<PlayersList> {
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print(message['data']['message']);
         if(message['data']['message'] == 'Atualiza'){
           setState((){});
-        } else if(message['data']['message'] == 'Redireciona') {
+        } else if(message['data']['message'] == 'Reconhecer') {
           Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Round())
+            context, MaterialPageRoute(builder: (context) => Recognize())
           );
         }
       },
@@ -163,14 +162,6 @@ class _PlayersListState extends State<PlayersList> {
           },
         );
       }
-
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Recognize(),
-      ),
-    );   
   }
 
 }

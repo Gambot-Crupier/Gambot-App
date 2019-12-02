@@ -25,7 +25,7 @@ Future<List<User>> fetchUsersExample() async {
 
 Future<dynamic> fetchPlayersInGame() async {
   try {
-    final response = await get(URLs.ipBernardoGateway + 'get_players_in_game');
+    final response = await get(URLs.ipMatheusGateway + 'get_players_in_game');
 
     if (response.statusCode == 200)
       return json.decode(response.body);
@@ -50,7 +50,7 @@ Future<dynamic> participateGame() async {
       'Accept': 'application/json',
     };
 
-    final response = await post(URLs.ipBernardoGateway + 'post_player_in_game', 
+    final response = await post(URLs.ipMatheusGateway + 'post_player_in_game', 
                                 headers: headers,
                                 body: json.encode({'player_id': Global.playerId, 'device_id': device_id}));
 
@@ -66,7 +66,7 @@ Future<dynamic> participateGame() async {
 
 
 Future<dynamic> dropGame() async {
-  String url = URLs.ipBernardoGateway + 'delete_player_in_game?player_id=' + Global.playerId.toString() + '&game_id=' + Global.currentGameId.toString();
+  String url = URLs.ipMatheusGateway + 'delete_player_in_game?player_id=' + Global.playerId.toString() + '&game_id=' + Global.currentGameId.toString();
   final response = await delete(url);
 
   if (response.statusCode == 200) 
@@ -81,7 +81,7 @@ Future<dynamic> dropGame() async {
 
 
 Future<dynamic> startGame() async {
-  String url = URLs.ipBernardoGateway + 'start_game';
+  String url = URLs.ipMatheusGateway + 'start_game';
   final response = await post(url);
 
   if (response.statusCode == 200)
@@ -92,7 +92,7 @@ Future<dynamic> startGame() async {
 }
 
 Future<dynamic> startRound() async {
-  String url = URLs.ipBernardoGateway + 'create_round';
+  String url = URLs.ipMatheusGateway + 'create_round';
   final response = await post(url);
 
   if(response.statusCode == 200)
@@ -102,7 +102,7 @@ Future<dynamic> startRound() async {
 }
 
 Future<dynamic> getRoundId() async {
-  String url = URLs.ipBernardoGateway + 'get_round_id';
+  String url = URLs.ipMatheusGateway + 'get_round_id';
   final response = await get(url);
 
   if(response.statusCode == 200) {
@@ -112,7 +112,7 @@ Future<dynamic> getRoundId() async {
 }
 
 Future<dynamic> roundRedirect() async {
-  String url = URLs.ipBernardoGateway + 'round_redirect';
+  String url = URLs.ipMatheusGateway + 'round_redirect';
   final response = await post(url);
 
   if(response.statusCode == 200)
@@ -120,20 +120,22 @@ Future<dynamic> roundRedirect() async {
 }
 
 Future<dynamic> getPlayerMoney() async {
-  String url = URLs.ipMatheusGateway + 'get_player_money?game_id=' + Global.roundId.toString() +
+  String url = URLs.ipMatheusGateway + 'get_player_money?game_id=' + Global.currentGameId.toString() +
     '&player_id=' + Global.playerId.toString();
   final response = await get(url);
 
   if(response.statusCode == 200) {
     var data = json.decode(response.body);
+    print(data);
     Global.playerMoney = data['money'];
+    print(Global.playerMoney);
   } else{
     throw Exception('Não foi possível pegar o dinheiro do jogador');
   }
 }
 
 Future<dynamic> getBet() async {
-  String url = URLs.ipBernardoGateway + 'get_round_bet?round_id=' + Global.roundId.toString();
+  String url = URLs.ipMatheusGateway + 'get_round_bet?round_id=' + Global.roundId.toString();
   final response = await get(url);
 
   if(response.statusCode == 200){
@@ -145,7 +147,7 @@ Future<dynamic> getBet() async {
 }
 
 Future<dynamic> payBet() async {
-  String url = URLs.ipBernardoGateway + 'pay_bet';
+  String url = URLs.ipMatheusGateway + 'pay_bet';
   
   try{
     final response = await http.post(
@@ -165,7 +167,7 @@ Future<dynamic> payBet() async {
 }
 
 Future<dynamic> leaveMatch() async {
-  String url = URLs.ipBernardoGateway + 'leave_match';
+  String url = URLs.ipMatheusGateway + 'leave_match';
 
   try {
     final response = await http.post(
@@ -184,7 +186,7 @@ Future<dynamic> leaveMatch() async {
 }
 
 Future<dynamic> getCurrentPlayer() async {
-  String url = URLs.ipBernardoGateway + 'get_current_player?round_id=' + Global.roundId.toString();
+  String url = URLs.ipMatheusGateway + 'get_current_player?round_id=' + Global.roundId.toString();
 
   try{
     final response = await http.get(url);
@@ -204,7 +206,7 @@ Future<dynamic> getCurrentPlayer() async {
 
 
 Future<dynamic> postPlayerId() async {
-  String url = URLs.ipBernardoGateway + 'post_player_id';
+  String url = URLs.ipMatheusGateway + 'post_player_id';
   
   final response = await post(url,
     body: json.encode({"player_id": Global.playerId}),
@@ -222,7 +224,7 @@ Future<dynamic> postPlayerId() async {
 
 
 Future<dynamic> skip() async {
-  String url = URLs.ipBernardoGateway + 'post_ignore_player';
+  String url = URLs.ipMatheusGateway + 'post_ignore_player';
   
   final response = await post(url);
 
@@ -237,7 +239,7 @@ Future<dynamic> skip() async {
 
 
 Future<dynamic> endRecognition() async {
-  String url = URLs.ipBernardoGateway + 'post_end_recognition';
+  String url = URLs.ipMatheusGateway + 'post_end_recognition';
   
   final response = await post(url);
 

@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gambot/components/default_button.dart';
+import 'package:gambot/pages/round.dart';
 import 'package:gambot/components/raiseBetDialog.dart';
 import 'package:gambot/globals.dart';
 import 'package:gambot/requests/requests.dart';
@@ -15,11 +16,31 @@ class Recognize extends StatefulWidget {
 }
 
 class _RecognizePageState extends State<Recognize> {
-
+  var _firebaseMessaging = new FirebaseMessaging();
   // @override
   // void initState() {
   //   super.initState();
   // }
+
+    @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.subscribeToTopic('Gambot');
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        if(message['data']['message'] == 'Redireciona') {
+          Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Round())
+          );
+        }
+      },
+      onResume: (Map<String, dynamic> message) async {
+      },
+      onLaunch: (Map<String, dynamic> message) async{
+      },
+    );
+  }
+ 
 
   @override
   Widget build(BuildContext context) {
