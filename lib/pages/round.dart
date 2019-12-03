@@ -25,8 +25,8 @@ class _RoundPageState extends State<Round> {
   void initState() {
     super.initState();
     
-    getBet();
     getCurrentPlayer();
+    getBet();
     getPlayerMoney();
 
     _firebaseMessaging.subscribeToTopic('Gambot');
@@ -34,8 +34,8 @@ class _RoundPageState extends State<Round> {
       onMessage: (Map<String, dynamic> message) async {
         getBet();
         getCurrentPlayer();
-        setState((){});
         getPlayerMoney();
+        setState((){});
 
         if(message['data']['message'] == 'Fugiram') {
           showDialog(
@@ -58,6 +58,8 @@ class _RoundPageState extends State<Round> {
 
   @override
   Widget build(BuildContext context) {
+    print(Global.playerId);
+    print(Global.playerTurnId);
     if(Global.playerId == Global.playerTurnId){
       return Scaffold(
         body: Container(
@@ -123,7 +125,7 @@ class _RoundPageState extends State<Round> {
                         fontColor: Colors.white,
                         backgroundColor: Colors.green,
                         func: () {
-
+                          raiseBetDialog(context);
                         },
                       ),
                     ),
@@ -202,5 +204,80 @@ class _RoundPageState extends State<Round> {
         ),
       );
     }
+  }
+
+  Widget margin(Widget wid) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 12.0),
+      child: wid,
+    );
+  }
+
+  void raiseBetDialog(BuildContext context) async {
+    
+    // Recuperar das APIs
+    double valorApostaAtual = Global.roundBet;
+    double dinheiroMaximoJogador = Global.playerMoney.toDouble();
+    int divisoes = (dinheiroMaximoJogador - valorApostaAtual)~/100;
+
+    double _value = valorApostaAtual;
+
+    showDialog(
+		context: context,
+		builder: (BuildContext context) {
+			return AlertDialog(
+				content: StatefulBuilder(
+					builder: (BuildContext context, StateSetter setState) {
+						return Container(
+              height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  margin(Text('Aumente a aposta!')),
+                  margin(Slider(
+                        value: _value,
+                        min: valorApostaAtual,
+                        max: dinheiroMaximoJogador,
+                        divisions: divisoes,
+                        activeColor: Colors.red,
+                        inactiveColor: Colors.black,
+                        label: 'R\$ $_value',
+                        onChanged: (double newValue) {
+                          setState(() {
+                            _value = newValue.round().toDouble();
+                          });
+                        },
+                    )),
+                    margin(SizedBox(
+                    width: 160,
+                    height: 50,
+                    child: DefaultButton(
+                      text: 'Aumentar', 
+                      fontSize: 20.0, 
+                        fontColor: Colors.white,
+                        backgroundColor: Colors.green,
+                        func: () {
+                          raiseBet(_value);
+                          Navigator.pop(context);
+                        },
+                    ))),
+                    margin(SizedBox(
+                    width: 160,
+                    height: 50,
+                    child: DefaultButton(
+                      text: 'Voltar', 
+                      fontSize: 15.0, 
+                        fontColor: Colors.white,
+                        backgroundColor: Colors.blueAccent,
+                        func: () => {
+                          Navigator.pop(context)
+                        },
+                    ))),
+                ]
+            ));
+					},
+				),
+			);
+		});                 
   }
 }

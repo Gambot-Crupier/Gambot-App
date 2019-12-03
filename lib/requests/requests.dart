@@ -166,6 +166,25 @@ Future<dynamic> payBet() async {
 
 }
 
+Future<dynamic> raiseBet(betValue) async {
+  String url = URLs.ipMatheusGateway + 'raise_bet';
+  
+  try{
+    final response = await http.post(
+      url,
+      body: json.encode({"round_id": Global.roundId, "player_id": Global.playerId, "game_id": Global.currentGameId, "value": betValue}),
+      headers: {"Content-type": "application/json"},
+    );
+
+    if(response.statusCode != 200) {
+      var error = json.decode(response.body);
+      throw new Exception(error['message']);
+    }
+  } on Exception catch(error){
+    throw error;
+  }
+}
+
 Future<dynamic> leaveMatch() async {
   String url = URLs.ipMatheusGateway + 'leave_match';
 
@@ -193,7 +212,9 @@ Future<dynamic> getCurrentPlayer() async {
 
     if(response.statusCode == 200) {
       var data = json.decode(response.body);
+      print(data);
       Global.playerTurnId = data['current_player_id'];
+      print(Global.playerTurnId);
     } else {
       var error = json.decode(response.body);
       throw new Exception(error['message']);
