@@ -49,13 +49,22 @@ class _RoundPageState extends State<Round> {
             },
           );
         } else if (message['data']['message'] == 'NovoRound') {
-          print('novo round');
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text('Um novo round irá iniciar!'),
                 content: Text('Coloque de volta suas cartas no Gambot e espere que elas sejam distribuídas!')
+              );
+            },
+          );
+        } else if (message['data']['message'] == 'Endgame') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Temos um vencedor do jogo!'),
+                content: Text('O vencedor da partida que ficou com todo o dinheiro foi ' + message['data']['winner'] + '! Parabéns!')
               );
             },
           );
