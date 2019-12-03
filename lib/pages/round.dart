@@ -68,6 +68,21 @@ class _RoundPageState extends State<Round> {
               );
             },
           );
+          Future.delayed(const Duration(seconds: 25), () => "25");
+          Global.currentGameId = null;
+          Global.playerMoney = null;
+          Global.roundId = null;
+          Global.roundBet = null;
+        } else if (message['data']['message'] == 'Endround') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Acabou a rodada!'),
+                content: Text('O jogador que venceu a partida com a maior sequência foi ' + message['data']['winner'] + '! Parabéns!')
+              );
+            },
+          );
         }
       },
       onResume: (Map<String, dynamic> message) async {
