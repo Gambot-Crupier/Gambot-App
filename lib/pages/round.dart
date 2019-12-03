@@ -32,9 +32,10 @@ class _RoundPageState extends State<Round> {
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        getBet();
-        getCurrentPlayer();
-        getPlayerMoney();
+        await getRoundId();
+        await getBet();
+        await getCurrentPlayer();
+        await getPlayerMoney();
         setState((){});
 
         if(message['data']['message'] == 'Fugiram') {
@@ -44,6 +45,17 @@ class _RoundPageState extends State<Round> {
               return AlertDialog(
                 title: Text('Acabou a rodada!'),
                 content: Text('Como todos os jogadores fugiram, o vencedor é o jogador(a) ' + message['data']['winner'])
+              );
+            },
+          );
+        } else if (message['data']['message'] == 'NovoRound') {
+          print('novo round');
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Um novo round irá iniciar!'),
+                content: Text('Coloque de volta suas cartas no Gambot e espere que elas sejam distribuídas!')
               );
             },
           );
@@ -58,8 +70,8 @@ class _RoundPageState extends State<Round> {
 
   @override
   Widget build(BuildContext context) {
-    print(Global.playerId);
-    print(Global.playerTurnId);
+    print('aquiiiii');
+    Future.delayed(const Duration(seconds: 10), () => "10");
     if(Global.playerId == Global.playerTurnId){
       return Scaffold(
         body: Container(
