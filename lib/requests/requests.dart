@@ -96,24 +96,24 @@ Future<dynamic> startRound() async {
   final response = await post(url);
 
   if(response.statusCode == 200) {
+    return null;
+  //   String urlContinue = URLs.prodGateway + 'post_continue'; 
+  //   Map<String,String> headers = {
+  //     'Content-type' : 'application/json', 
+  //     'Accept': 'application/json',
+  //   };
     
-    String urlContinue = URLs.prodGateway + 'post_continue'; 
-    Map<String,String> headers = {
-      'Content-type' : 'application/json', 
-      'Accept': 'application/json',
-    };
-    
-    final responseContinue = await post(urlContinue, 
-                                headers: headers,
-                                body: json.encode({'continue': 3}));
+  //   final responseContinue = await post(urlContinue, 
+  //                               headers: headers,
+  //                               body: json.encode({'continue': 3}));
 
-    if(responseContinue.statusCode == 200)
-      return null;
-    else
-      throw Exception('A ação de comunição de comunicar ao gambot para continuar falhou!');
-  }
-  else
-    throw Exception('Não foi possivel criar um round.');
+  //   if(responseContinue.statusCode == 200)
+  //     return null;
+  //   else
+  //     throw Exception('A ação de comunição de comunicar ao gambot para continuar falhou!');
+  // }
+  // else
+  //   throw Exception('Não foi possivel criar um round.');
 
 
  
