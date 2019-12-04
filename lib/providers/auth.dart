@@ -16,7 +16,7 @@ class Auth with ChangeNotifier {
 
     try{
       final response = await http.post(
-        URLs.ipMatheusPlayers + 'sign-up',
+        URLs.prodPlayers + 'sign-up',
         body: json.encode({"user": signUpData}),
         headers: {"Content-Type": "application/json"},
       );
@@ -37,7 +37,7 @@ class Auth with ChangeNotifier {
 
     try{
       final response = await http.post(
-        URLs.ipMatheusPlayers + 'sign-in',
+        URLs.prodPlayers + 'sign-in',
         body: json.encode({"user": loginData}),
         headers: {"Content-Type": "application/json"},
       );
