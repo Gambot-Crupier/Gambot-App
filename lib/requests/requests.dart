@@ -111,9 +111,9 @@ Future<dynamic> startRound() async {
   //     return null;
   //   else
   //     throw Exception('A ação de comunição de comunicar ao gambot para continuar falhou!');
-  // }
-  // else
-  //   throw Exception('Não foi possivel criar um round.');
+  }
+  else
+    throw Exception('Não foi possivel criar um round.');
 
 
  
