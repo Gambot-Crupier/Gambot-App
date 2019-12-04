@@ -273,7 +273,7 @@ class _RoundPageState extends State<Round> {
                   margin(Slider(
                         value: _value,
                         min: valorApostaAtual,
-                        max: dinheiroMaximoJogador,
+                        max: dinheiroMaximoJogador + valorApostaAtual,
                         divisions: divisoes,
                         activeColor: Colors.red,
                         inactiveColor: Colors.black,
