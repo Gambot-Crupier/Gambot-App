@@ -254,7 +254,7 @@ class _RoundPageState extends State<Round> {
     // Recuperar das APIs
     double valorApostaAtual = Global.roundBet;
     double dinheiroMaximoJogador = Global.playerMoney.toDouble();
-    int divisoes = (dinheiroMaximoJogador - valorApostaAtual)~/100;
+    int divisoes = (10000 - valorApostaAtual)~/100;
 
     double _value = valorApostaAtual;
 
@@ -273,7 +273,7 @@ class _RoundPageState extends State<Round> {
                   margin(Slider(
                         value: _value,
                         min: valorApostaAtual,
-                        max: dinheiroMaximoJogador + valorApostaAtual,
+                        max: 10000,
                         divisions: divisoes,
                         activeColor: Colors.red,
                         inactiveColor: Colors.black,
@@ -293,8 +293,20 @@ class _RoundPageState extends State<Round> {
                         fontColor: Colors.white,
                         backgroundColor: Colors.green,
                         func: () {
-                          raiseBet(_value);
-                          Navigator.pop(context);
+                          if(_value <= valorApostaAtual) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: new Text("Aumente a aposta"),
+                                  content: new Text("Se deseja continuar no jogo, pague a aposta. Senão, fuja!")
+                                );
+                              },
+                            );
+                          } else {
+                            raiseBet(_value);
+                            Navigator.pop(context);
+                          }
                         },
                     ))),
                     margin(SizedBox(
