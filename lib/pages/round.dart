@@ -12,6 +12,8 @@ import 'package:gambot/globals.dart';
 import 'package:gambot/requests/requests.dart';
 import 'package:gambot/requests/requests.dart' as prefix0;
 
+import '../style.dart';
+
 
 class Round extends StatefulWidget {
   @override
@@ -28,6 +30,7 @@ class _RoundPageState extends State<Round> {
     getCurrentPlayer();
     getBet();
     getPlayerMoney();
+    getPlayerActions();
 
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
@@ -36,6 +39,7 @@ class _RoundPageState extends State<Round> {
         await getBet();
         await getCurrentPlayer();
         await getPlayerMoney();
+        await getPlayerActions();
         setState((){});
 
         if(message['data']['message'] == 'Fugiram') {
@@ -96,114 +100,137 @@ class _RoundPageState extends State<Round> {
   Widget build(BuildContext context) {
     print('aquiiiii');
     Future.delayed(const Duration(seconds: 10), () => "10");
-    if(Global.playerId == Global.playerTurnId){
-      return Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/background.jpg"),
-              fit: BoxFit.cover,
-              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
-            ),
-          ),
-          padding: EdgeInsets.only(top: 130, left: 40, right: 40),
-          child: ListView(
-            children: <Widget>[
-              Divider(),
-              Container(
-                decoration: new BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: new BorderRadius.circular(16.0)
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Divider(),
-                    DefaultTextStyle(
-                      textAlign: TextAlign.center,
-                      style: new TextStyle(color: Colors.black, fontSize: 20),
-                      child: Text(
-                        'A RODADA ESTÁ EM'
-                      )
-                    ),
-                    Divider(),
-                    DefaultTextStyle(
-                      textAlign: TextAlign.center,
-                      style: new TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
-                      child: Text(
-                        Global.roundBet.toString()
-                      )
-                    ),
-                    Divider(),
-                    DefaultTextStyle(
-                      textAlign: TextAlign.left,
-                      style: new TextStyle(color: Colors.black, fontSize: 20),
-                      child: Text(
-                        'Você possui'
-                      )
-                    ),
-                    Divider(),
-                    DefaultTextStyle(
-                      textAlign: TextAlign.right,
-                      style: new TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-                      child: Text(
-                        Global.playerMoney.toString()
-                      )
-                    ),
-                    Divider(),
-                    SizedBox(
-                      width: 160,
-                      height: 50, 
-                      child: DefaultButton(
-                        text: 'Aumentar', 
-                        fontSize: 20.0, 
-                        fontColor: Colors.white,
-                        backgroundColor: Colors.green,
-                        func: () {
-                          raiseBetDialog(context);
-                        },
-                      ),
-                    ),
-                    Divider(),
-                    SizedBox(
-                      width: 160,
-                      height: 50,
-                      child: DefaultButton(
-                        text: 'Pagar', 
-                        fontSize: 20.0, 
-                          fontColor: Colors.white,
-                          backgroundColor: Colors.blue,
-                          func: () {
-                            payBet();
-                          },
-                      ),
-                    ),
-                    Divider(),
-                    SizedBox(
-                      width: 160,
-                      height: 50,
-                      child: DefaultButton(
-                        text: 'Fugir', 
-                        fontSize: 20.0, 
-                          fontColor: Colors.white,
-                          backgroundColor: Colors.red,
-                          func: () {
-                            leaveMatch();
-                          },
-                      ),
-                    ),
-                    Divider(),
-                  ],
-                ),
-              ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Colors.green,
+        appBar: AppBar(
+          bottom: TabBar(
+            unselectedLabelColor: Colors.grey,
+            labelColor: Colors.white,
+            indicatorColor: Colors.white,
+            tabs: [
+              Tab(text: "Ações"),
+              Tab(text: "Jogadores")
             ],
           ),
         ),
-      );
+        body: TabBarView(
+          children: [
+            playerActions(),
+            playerActionsTable()
+          ],
+        )
+      )
+    );
+  }
+
+  Widget playerActions() {
+    if(Global.playerId == Global.playerTurnId) {
+      return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/background.jpg"),
+                fit: BoxFit.cover,
+                colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+              ),
+            ),
+            padding: EdgeInsets.only(top: 70, left: 40, right: 40),
+            child: ListView(
+              children: <Widget>[
+                Divider(),
+                Container(
+                  decoration: new BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.circular(16.0)
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Divider(),
+                      DefaultTextStyle(
+                        textAlign: TextAlign.center,
+                        style: new TextStyle(color: Colors.black, fontSize: 20),
+                        child: Text(
+                          'A RODADA ESTÁ EM'
+                        )
+                      ),
+                      Divider(),
+                      DefaultTextStyle(
+                        textAlign: TextAlign.center,
+                        style: new TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
+                        child: Text(
+                          Global.roundBet.toString()
+                        )
+                      ),
+                      Divider(),
+                      DefaultTextStyle(
+                        textAlign: TextAlign.left,
+                        style: new TextStyle(color: Colors.black, fontSize: 20),
+                        child: Text(
+                          'Você possui'
+                        )
+                      ),
+                      Divider(),
+                      DefaultTextStyle(
+                        textAlign: TextAlign.right,
+                        style: new TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                        child: Text(
+                          Global.playerMoney.toString()
+                        )
+                      ),
+                      Divider(),
+                      SizedBox(
+                        width: 160,
+                        height: 50, 
+                        child: DefaultButton(
+                          text: 'Aumentar', 
+                          fontSize: 20.0, 
+                          fontColor: Colors.white,
+                          backgroundColor: Colors.green,
+                          func: () {
+                            raiseBetDialog(context);
+                          },
+                        ),
+                      ),
+                      Divider(),
+                      SizedBox(
+                        width: 160,
+                        height: 50,
+                        child: DefaultButton(
+                          text: 'Pagar', 
+                          fontSize: 20.0, 
+                            fontColor: Colors.white,
+                            backgroundColor: Colors.blue,
+                            func: () {
+                              payBet();
+                            },
+                        ),
+                      ),
+                      Divider(),
+                      SizedBox(
+                        width: 160,
+                        height: 50,
+                        child: DefaultButton(
+                          text: 'Fugir', 
+                          fontSize: 20.0, 
+                            fontColor: Colors.white,
+                            backgroundColor: Colors.red,
+                            func: () {
+                              leaveMatch();
+                            },
+                        ),
+                      ),
+                      Divider(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
     } else {
-      return Scaffold(
-        body: Container(
+      return Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/background.jpg"),
@@ -237,9 +264,52 @@ class _RoundPageState extends State<Round> {
               ),
             ],
           ),
-        ),
-      );
-    }
+        );
+    }    
+  }
+
+  Widget playerActionsTable() {
+    return Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background.jpg"),
+              fit: BoxFit.cover,
+              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+            ),
+          ),
+          padding: EdgeInsets.only(top: 40, left: 40, right: 40),
+          child: Center(
+            child: Card(
+              child: Container(
+                width: 300,
+                height: 350,
+                padding: const EdgeInsets.all(20.0),
+                child: playerActionsItems()
+              )
+            )
+          )
+        );
+  }
+
+  Widget playerActionsItems() {
+    const TextStyle style = TextStyle(fontSize: 18, color: Colors.black, fontFamily: DefaultStyle.fontFamily);
+
+    return ListView.separated(
+        itemCount: Global.playerActions.length,
+        
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              (index+1).toString() + '       ' + Global.playerActions[index]['name'] + '           ' + Global.playerActions[index]['action'], 
+              style: style,
+            ),
+          );
+        },
+        
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+      ); 
   }
 
   Widget margin(Widget wid) {

@@ -41,7 +41,7 @@ Future<dynamic> fetchPlayersInGame() async {
 }
 
 
-Future<dynamic> participateGame() async {
+Future<List> participateGame() async {
     final firebase = FirebaseMessaging();
     var device_id = await firebase.getToken();
 
@@ -117,6 +117,19 @@ Future<dynamic> startRound() async {
 
 
  
+}
+
+Future<dynamic> getPlayerActions() async {
+  String url = URLs.prodGateway + 'get_round_actions';
+  final response = await get(url);
+
+  if(response.statusCode == 200) {
+    List playerList = json.decode(response.body)['players'];
+    Global.playerActions = playerList;
+    print(Global.playerActions);
+  } else {
+    return null;
+  }
 }
 
 Future<dynamic> getRoundId() async {

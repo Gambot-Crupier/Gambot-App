@@ -152,14 +152,8 @@ class _PlayersListState extends State<PlayersList> {
     try{
         await startGame();
       } on Exception catch (error) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Erro"),
-              content: Text(error.toString())
-            );
-          },
+        Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Recognize())
         );
       }
   }

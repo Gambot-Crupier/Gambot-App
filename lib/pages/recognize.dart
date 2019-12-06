@@ -25,6 +25,7 @@ class _RecognizePageState extends State<Recognize> {
     @override
   void initState() {
     super.initState();
+    getPlayerActions();
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -113,6 +114,21 @@ class _RecognizePageState extends State<Recognize> {
                         },
                     ),
                   )),
+                  margin(SizedBox(
+                    width: 160,
+                    height: 50, 
+                    child: DefaultButton(
+                      text: 'Jogar!', 
+                      fontSize: 20.0, 
+                      fontColor: Colors.white,
+                      backgroundColor: Colors.green,
+                      func: () {
+                        Navigator.pushReplacement(
+                          context, MaterialPageRoute(builder: (context) => Round())
+                        );
+                      },
+                    ),
+                  )),
                 ],
               ),
             ),
@@ -153,6 +169,7 @@ class _RecognizePageState extends State<Recognize> {
     await getBet();
     await getPlayerMoney();
     await roundRedirect();
+    await getPlayerActions();
   }
 
 

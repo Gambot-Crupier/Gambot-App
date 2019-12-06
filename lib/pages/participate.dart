@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gambot/globals.dart';
 import 'package:gambot/pages/players_list.dart';
 import 'package:gambot/style.dart';
 import 'package:gambot/requests/requests.dart';
@@ -56,15 +57,21 @@ class _ParticipateState extends State<Participate> {
           context, MaterialPageRoute(builder: (context) => PlayersList())
         );
       } on Exception catch (error) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Erro"),
-              content: Text(error.toString())
-            );
-          },
-        );
+        if(Global.currentGameId != null) {
+          Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PlayersList())
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Erro"),
+                content: Text(error.toString())
+              );
+            },
+          );
+        }
       }
   }
 }

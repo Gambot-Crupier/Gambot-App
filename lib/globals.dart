@@ -5,4 +5,5 @@ class Global {
   static double roundBet;
   static int playerTurnId;
   static int playerMoney;
+  static List playerActions;
 }
