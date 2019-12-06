@@ -283,7 +283,7 @@ class _RoundPageState extends State<Round> {
               child: Container(
                 width: 300,
                 height: 350,
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(5.0),
                 child: playerActionsItems()
               )
             )
@@ -292,15 +292,15 @@ class _RoundPageState extends State<Round> {
   }
 
   Widget playerActionsItems() {
-    const TextStyle style = TextStyle(fontSize: 18, color: Colors.black, fontFamily: DefaultStyle.fontFamily);
+    const TextStyle style = TextStyle(fontSize: 16, color: Colors.black, fontFamily: DefaultStyle.fontFamily);
 
     return ListView.separated(
         itemCount: Global.playerActions.length,
-        
+
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(
-              (index+1).toString() + '       ' + Global.playerActions[index]['name'] + '           ' + Global.playerActions[index]['action'], 
+              (index+1).toString() + ' - ' + Global.playerActions[index]['name'] + '  Aposta:' + Global.playerActions[index]['action'], 
               style: style,
             ),
           );
