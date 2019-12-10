@@ -9,6 +9,7 @@ import 'package:gambot/models/player.dart';
 import 'package:gambot/requests/requests.dart';
 import 'package:gambot/requests/requests.dart' as prefix0;
 import 'package:gambot/style.dart';
+import 'package:gambot/components/app_bar.dart';
 
 class PlayersList extends StatefulWidget {
   @override
@@ -48,6 +49,9 @@ class _PlayersListState extends State<PlayersList> {
     queryData = MediaQuery.of(context);
 
     return Scaffold(
+        appBar: BaseAppBar(
+          appBar: AppBar(),
+        ),
         body: Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(

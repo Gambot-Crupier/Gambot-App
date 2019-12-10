@@ -11,6 +11,7 @@ import '../providers/auth.dart';
 import 'package:gambot/globals.dart';
 import 'package:gambot/requests/requests.dart';
 import 'package:gambot/requests/requests.dart' as prefix0;
+import 'package:gambot/components/app_bar.dart';
 
 import '../style.dart';
 
@@ -104,15 +105,19 @@ class _RoundPageState extends State<Round> {
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.green,
-        appBar: AppBar(
-          bottom: TabBar(
-            unselectedLabelColor: Colors.grey,
-            labelColor: Colors.white,
-            indicatorColor: Colors.white,
-            tabs: [
-              Tab(text: "Ações"),
-              Tab(text: "Jogadores")
-            ],
+        appBar: BaseAppBar(
+          appBar: AppBar(
+            title: Text('Round'),
+            backgroundColor: Colors.indigo[900],
+            bottom: TabBar(
+              unselectedLabelColor: Colors.grey,
+              labelColor: Colors.white,
+              indicatorColor: Colors.white,
+              tabs: [
+                Tab(text: "Ações"),
+                Tab(text: "Jogadores")
+              ],
+            ),
           ),
         ),
         body: TabBarView(
@@ -245,7 +250,7 @@ class _RoundPageState extends State<Round> {
               Container(
                 decoration: new BoxDecoration(
                   color: Colors.white,
-                  borderRadius: new BorderRadius.circular(16.0)
+                  borderRadius: new BorderRadius.circular(30.0)
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -259,6 +264,7 @@ class _RoundPageState extends State<Round> {
                         'Espere a sua vez'
                       )
                     ),
+                    Divider()
                   ],
                 ),
               ),
