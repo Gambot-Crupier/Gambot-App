@@ -107,6 +107,8 @@ class _RoundPageState extends State<Round> {
       child: Scaffold(
         backgroundColor: Colors.green,
         appBar: AppBar(
+          title: Text('Round'),
+          backgroundColor: Colors.indigo[900],
           bottom: TabBar(
             unselectedLabelColor: Colors.grey,
             labelColor: Colors.white,
@@ -249,7 +251,7 @@ class _RoundPageState extends State<Round> {
               Container(
                 decoration: new BoxDecoration(
                   color: Colors.white,
-                  borderRadius: new BorderRadius.circular(16.0)
+                  borderRadius: new BorderRadius.circular(30.0)
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -258,11 +260,12 @@ class _RoundPageState extends State<Round> {
                     Divider(),
                     DefaultTextStyle(
                       textAlign: TextAlign.center,
-                      style: new TextStyle(color: Colors.black, fontSize: 20),
+                      style: new TextStyle(color: Colors.black, fontSize: 20, fontFamily: DefaultStyle.fontFamily),
                       child: Text(
                         'Espere a sua vez'
                       )
                     ),
+                    Divider()
                   ],
                 ),
               ),
@@ -296,7 +299,7 @@ class _RoundPageState extends State<Round> {
   }
 
   Widget playerRankingItems() {
-    const TextStyle style = TextStyle(fontSize: 14, color: Colors.black, fontFamily: DefaultStyle.fontFamily);
+    const TextStyle style = TextStyle(fontSize: 16, color: Colors.black, fontFamily: DefaultStyle.fontFamily);
 
     return ListView.separated(
         itemCount: Global.playerRanking.length,
@@ -304,9 +307,13 @@ class _RoundPageState extends State<Round> {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(
-              (index+1).toString() + ' - ' + Global.playerRanking[index]['player_name'] + '   Dinheiro:' + Global.playerRanking[index]['money'].toString(), 
+              (index+1).toString() + ' - ' + Global.playerRanking[index]['player_name'], 
               style: style,
             ),
+            subtitle: Text(
+              'Dinheiro: ' + Global.playerRanking[index]['money'].toString(),
+              style: new TextStyle(fontWeight: FontWeight.normal, fontFamily: 'McLaren'),
+            )
           );
         },
         
@@ -346,10 +353,14 @@ class _RoundPageState extends State<Round> {
         itemCount: Global.playerActions.length,
 
         itemBuilder: (context, index) {
+
           return ListTile(
             title: Text(
-              (index+1).toString() + ' - ' + Global.playerActions[index]['name'] + '  Aposta:' + Global.playerActions[index]['action'], 
+              (index+1).toString() + ' - ' + Global.playerActions[index]['name'], 
               style: style,
+            ),
+            subtitle: Text('Aposta: ' + Global.playerActions[index]['action'], 
+              style: new TextStyle(fontWeight: FontWeight.normal, fontFamily: 'McLaren'),
             ),
           );
         },
