@@ -115,7 +115,7 @@ class _RoundPageState extends State<Round> {
             indicatorColor: Colors.white,
             tabs: [
               Tab(text: "Ações"),
-              Tab(text: "Jogadores"),
+              Tab(text: "Apostas"),
               Tab(text: "Ranking")
             ],
           ),
