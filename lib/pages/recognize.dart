@@ -7,6 +7,7 @@ import 'package:gambot/pages/round.dart';
 import 'package:gambot/components/raiseBetDialog.dart';
 import 'package:gambot/globals.dart';
 import 'package:gambot/requests/requests.dart';
+import 'package:gambot/requests/requests.dart' as prefix0;
 import 'package:gambot/style.dart';
 
 
@@ -170,6 +171,7 @@ class _RecognizePageState extends State<Recognize> {
     await getPlayerMoney();
     await roundRedirect();
     await getPlayerActions();
+    await getPlayerRanking();
   }
 
 

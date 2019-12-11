@@ -31,6 +31,7 @@ class _RoundPageState extends State<Round> {
     getBet();
     getPlayerMoney();
     getPlayerActions();
+    getPlayerRanking();
 
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
@@ -40,6 +41,7 @@ class _RoundPageState extends State<Round> {
         await getCurrentPlayer();
         await getPlayerMoney();
         await getPlayerActions();
+        await getPlayerRanking();
         setState((){});
 
         if(message['data']['message'] == 'Fugiram') {
@@ -101,7 +103,7 @@ class _RoundPageState extends State<Round> {
     print('aquiiiii');
     Future.delayed(const Duration(seconds: 10), () => "10");
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         backgroundColor: Colors.green,
         appBar: AppBar(
@@ -111,14 +113,16 @@ class _RoundPageState extends State<Round> {
             indicatorColor: Colors.white,
             tabs: [
               Tab(text: "Ações"),
-              Tab(text: "Jogadores")
+              Tab(text: "Jogadores"),
+              Tab(text: "Ranking")
             ],
           ),
         ),
         body: TabBarView(
           children: [
             playerActions(),
-            playerActionsTable()
+            playerActionsTable(),
+            playerRanking()
           ],
         )
       )
@@ -266,6 +270,50 @@ class _RoundPageState extends State<Round> {
           ),
         );
     }    
+  }
+
+  Widget playerRanking() {
+    return Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background.jpg"),
+              fit: BoxFit.cover,
+              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+            ),
+          ),
+          padding: EdgeInsets.only(top: 40, left: 40, right: 40),
+          child: Center(
+            child: Card(
+              child: Container(
+                width: 300,
+                height: 350,
+                padding: const EdgeInsets.all(5.0),
+                child: playerRankingItems()
+              )
+            )
+          )
+        );
+  }
+
+  Widget playerRankingItems() {
+    const TextStyle style = TextStyle(fontSize: 14, color: Colors.black, fontFamily: DefaultStyle.fontFamily);
+
+    return ListView.separated(
+        itemCount: Global.playerRanking.length,
+
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              (index+1).toString() + ' - ' + Global.playerRanking[index]['player_name'] + '   Dinheiro:' + Global.playerRanking[index]['money'].toString(), 
+              style: style,
+            ),
+          );
+        },
+        
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+      ); 
   }
 
   Widget playerActionsTable() {

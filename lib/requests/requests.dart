@@ -126,7 +126,23 @@ Future<dynamic> getPlayerActions() async {
   if(response.statusCode == 200) {
     List playerList = json.decode(response.body)['players'];
     Global.playerActions = playerList;
+    print(json.decode(response.body));
     print(Global.playerActions);
+  } else {
+    return null;
+  }
+}
+
+Future<dynamic> getPlayerRanking() async {
+  String url = URLs.prodGateway + 'get_players_ranking';
+  final response = await get(url);
+
+  if(response.statusCode == 200) {
+    List playerList = json.decode(response.body)['players'];
+    Global.playerRanking = playerList;
+    print("\n\n\n\n\n\n\n\n\n");
+    print(json.decode(response.body));
+    print(Global.playerRanking);
   } else {
     return null;
   }

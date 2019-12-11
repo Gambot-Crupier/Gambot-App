@@ -6,4 +6,5 @@ class Global {
   static int playerTurnId;
   static int playerMoney;
   static List playerActions;
+  static List playerRanking;
 }
