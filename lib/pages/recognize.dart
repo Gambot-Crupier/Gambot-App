@@ -27,6 +27,7 @@ class _RecognizePageState extends State<Recognize> {
   void initState() {
     super.initState();
     getPlayerActions();
+    getPlayerRanking();
     _firebaseMessaging.subscribeToTopic('Gambot');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -169,9 +170,9 @@ class _RecognizePageState extends State<Recognize> {
     await getCurrentPlayer();
     await getBet();
     await getPlayerMoney();
-    await roundRedirect();
     await getPlayerActions();
     await getPlayerRanking();
+    await roundRedirect();
   }
 
 
